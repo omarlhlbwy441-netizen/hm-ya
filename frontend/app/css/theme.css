@@ -1,0 +1,44 @@
+/* النظام البصري المركزي: Dark Luxury Theme */
+:root {
+    /* الخلفيات والملمس */
+    --surface-primary: #050403;
+    --surface-secondary: #120e0a;
+    --marble-overlay: url('../assets/dark-brown-marble-texture.png');
+    
+    /* التأثيرات الذهبية */
+    --gold-solid: #d4af37;
+    --gold-glow: rgba(212, 175, 55, 0.25);
+    
+    /* الخطوط */
+    --typography-gold: #d4af37;
+    --typography-light: #f5f5dc;
+}
+
+body {
+    background-color: var(--surface-primary);
+    background-image: var(--marble-overlay);
+    background-blend-mode: multiply;
+    color: var(--typography-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+}
+
+/* الكروت والعناصر */
+.module-container, .session-card {
+    background: var(--surface-secondary);
+    border: 1px solid var(--gold-solid);
+    outline: 1px solid var(--gold-glow);
+    outline-offset: 4px;
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: 0 8px 32px var(--gold-glow);
+}
+
+/* العناوين والطباعة */
+h1, h2, h3, .emperor-title {
+    color: var(--typography-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border-bottom: 1px solid var(--gold-solid);
+    padding-bottom: 8px;
+}
