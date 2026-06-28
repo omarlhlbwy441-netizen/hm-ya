@@ -1,0 +1,11 @@
+{
+  "name": "hm-ya",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node orchestrator.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}
