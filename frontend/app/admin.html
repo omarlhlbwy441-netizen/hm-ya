@@ -3,46 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة القيادة | منظومة hm-ya</title>
-    <link rel="stylesheet" href="css/theme.css">
+    <title>لوحة الإمبراطور | hm-ya Core</title>
     <style>
-        .dashboard { display: grid; grid-template-columns: 1fr 3fr; gap: 20px; padding: 20px; }
-        .panel { padding: 20px; border: var(--gold-border); background: var(--surface-secondary); border-radius: 8px; }
-        .btn-danger { background: #800000; color: #fff; border: 1px solid red; padding: 15px; width: 100%; cursor: pointer; font-size: 18px; border-radius: 5px; text-shadow: 1px 1px 2px #000; box-shadow: 0 0 15px rgba(255,0,0,0.3); transition: 0.3s; }
-        .btn-danger:hover { background: #a00000; box-shadow: 0 0 25px rgba(255,0,0,0.6); }
-        .voice-controls { margin-top: 20px; display: flex; gap: 10px; }
-        .btn-voice { background: transparent; border: 1px solid var(--typography-gold); color: var(--typography-gold); padding: 10px; cursor: pointer; flex: 1; border-radius: 5px;}
+        :root { --neon-cyan: #00ffff; --dark-bg: #050510; --panel-bg: #0a0a1a; }
+        body { background-color: var(--dark-bg); color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        .dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+        .panel { background: var(--panel-bg); border: 1px solid rgba(0,255,255,0.2); border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .treasury-card { background: linear-gradient(135deg, #001f3f, #003366); border: 2px solid var(--neon-cyan); text-align: center; padding: 30px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); margin-bottom: 20px;}
+        .balance-text { font-size: 3em; font-weight: bold; color: var(--neon-cyan); margin: 10px 0; text-shadow: 0 0 10px rgba(0,255,255,0.5);}
+        .btn { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn-cyan { background: var(--neon-cyan); color: #000; }
+        .btn-cyan:hover { box-shadow: 0 0 15px var(--neon-cyan); }
+        .btn-danger { background: #ff0044; color: #fff; }
+        .form-group { margin-bottom: 15px; text-align: right; }
+        input, select { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 6px; box-sizing: border-box; }
+        input:focus, select:focus { border-color: var(--neon-cyan); outline: none; }
     </style>
 </head>
 <body>
+    <h1 style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">👑 الإدارة العليا | hm-ya</h1>
     <div class="dashboard">
+        <!-- الخزينة والسحب -->
         <div class="panel">
-            <h3 class="emperor-title">صلاحيات الإمبراطور</h3>
-            <ul style="list-style:none; padding:0; color:var(--typography-light); line-height:2.5;">
-                <li>✓ إدارة الشبكة</li>
-                <li>✓ صلاحيات التوثيق</li>
-                <li>✓ الرقابة المركزية</li>
-            </ul>
+            <div class="treasury-card">
+                <h3>رصيد الخزينة المركزية</h3>
+                <div class="balance-text" id="balanceDisplay">$250,000.00</div>
+                <p style="color: #888;">محمي بنظام التشفير الاستباقي</p>
+            </div>
+            
+            <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px;">💸 بوابة السحب الآمن (Withdraw)</h3>
+            <div class="form-group">
+                <label>طريقة السحب:</label>
+                <select id="withdrawMethod">
+                    <option value="bok">بنك الخرطوم (BOK)</option>
+                    <option value="vodafone">فودافون كاش (Vodafone Cash)</option>
+                    <option value="swift">تحويل دولي (SWIFT)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>رقم الحساب / الهاتف:</label>
+                <input type="text" id="accountDetails" placeholder="أدخل البيانات...">
+            </div>
+            <div class="form-group">
+                <label>المبلغ (USD):</label>
+                <input type="number" id="withdrawAmount" placeholder="مثال: 5000">
+            </div>
+            <button class="btn btn-cyan" onclick="processWithdrawal()">تنفيذ السحب الآن</button>
         </div>
+
+        <!-- التحكم بالنظام والإعلانات -->
         <div class="panel">
             <h2>مركز التحكم الاستراتيجي</h2>
-            <button class="btn-danger" id="expandBtn">🚀 تفعيل نظام التوسع (Expansion System)</button>
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>📢 شبكة الإعلانات العالمية</h3>
+                <p>إدارة عرض إعلان "فرصة الاستثمار" في جميع صفحات المنظومة لجلب رؤوس الأموال.</p>
+                <button class="btn btn-cyan" id="adToggleBtn" onclick="toggleAds()">حالة الإعلانات: مفعلة 🟢</button>
+            </div>
             
-            <div class="module-container" style="margin-top: 30px;">
-                <h3 style="border:none;">🎙️ نظام المراسلة الصوتية</h3>
-                <div class="voice-controls">
-                    <button class="btn-voice" id="startRecord">🔴 بدء التسجيل</button>
-                    <button class="btn-voice" id="stopRecord" disabled>⏹️ إيقاف</button>
-                </div>
-                <audio id="audioPlayback" controls style="width: 100%; margin-top: 15px; display: none;"></audio>
+            <div style="background: rgba(255,0,0,0.1); padding: 20px; border-radius: 8px; border: 1px solid #ff0044;">
+                <h3 style="color: #ff0044;">🚀 بروتوكول التوسع</h3>
+                <button class="btn btn-danger" onclick="alert('تم نشر النظام عالمياً!')">تفعيل بروتوكولات التوسع الذاتي</button>
             </div>
         </div>
     </div>
-    <script src="js/voice_system.js"></script>
+
+    <!-- ربط محرك الإعلانات -->
+    <script src="js/ad_injector.js"></script>
     <script>
-        document.getElementById('expandBtn').addEventListener('click', () => {
-            alert('تم إطلاق بروتوكولات نظام التوسع بنجاح في جميع الخوادم!');
-        });
+        function processWithdrawal() {
+            const method = document.getElementById('withdrawMethod').value;
+            const account = document.getElementById('accountDetails').value;
+            const amount = document.getElementById('withdrawAmount').value;
+            
+            if(!account || !amount) { alert('يرجى إكمال بيانات السحب'); return; }
+            
+            fetch('/api/withdraw', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method, accountDetails: account, amount: parseFloat(amount) })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    document.getElementById('balanceDisplay').innerText = '$' + data.newBalance.toLocaleString('en-US', {minimumFractionDigits: 2});
+                } else {
+                    alert('❌ خطأ: ' + data.error);
+                }
+            });
+        }
+
+        function toggleAds() {
+            fetch('/api/toggle-ads', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                const btn = document.getElementById('adToggleBtn');
+                btn.innerText = data.adsActive ? 'حالة الإعلانات: مفعلة 🟢' : 'حالة الإعلانات: متوقفة 🔴';
+            });
+        }
     </script>
 </body>
 </html>
