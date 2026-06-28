@@ -1,0 +1,255 @@
+
+# ========== الجلسة 2: العقل الواعي ==========
+session2_dir = f'{base_output}/session_02_conscious'
+os.makedirs(f'{session2_dir}/css', exist_ok=True)
+os.makedirs(f'{session2_dir}/js', exist_ok=True)
+
+with open(f'{session2_dir}/css/styles.css', 'w', encoding='utf-8') as f:
+    f.write(css_shared)
+
+html_s2 = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الجلسة 2 | العقل الواعي - مملكة ياسمين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="bg-animation" id="bgAnimation"></div>
+<header class="main-header">
+<div class="logo">
+<div class="logo-icon"><i class="fas fa-brain"></i></div>
+<div class="logo-text"><h1>الجلسة 2</h1><span>العقل الواعي | الوعي الذاتي المتكامل</span></div>
+</div>
+<div class="system-status">
+<div class="status-item"><div class="status-dot online"></div><span>الوعي نشط</span></div>
+<div class="status-item"><i class="fas fa-eye" style="color:var(--info)"></i><span>مستوى الوعي: 87%</span></div>
+<div class="status-item"><i class="fas fa-clock" style="color:var(--secondary)"></i><span id="clock">00:00:00</span></div>
+</div>
+</header>
+<nav class="nav-tabs">
+<div class="nav-tab active" data-tab="awareness"><i class="fas fa-eye"></i> حالة الوعي</div>
+<div class="nav-tab" data-tab="thinking"><i class="fas fa-lightbulb"></i> التفكير الحالي</div>
+<div class="nav-tab" data-tab="neural"><i class="fas fa-project-diagram"></i> الشبكة العصبية</div>
+<div class="nav-tab" data-tab="decisions"><i class="fas fa-gavel"></i> محرك القرار</div>
+<div class="nav-tab" data-tab="logic"><i class="fas fa-brain"></i> المنطق والتحليل</div>
+<div class="nav-tab" data-tab="memory"><i class="fas fa-memory"></i> الذاكرة العاملة</div>
+</nav>
+<main class="main-content">
+<div class="tab-content active" id="awareness">
+<div class="alert alert-info"><i class="fas fa-info-circle"></i><span>العقل الواعي يعمل بكامل طاقته. مستوى الوعي: 87% | التركيز: 92%</span></div>
+<div class="card-grid">
+<div class="card">
+<div class="scan-line"></div>
+<div class="card-header"><div class="card-title">مؤشر الوعي العام</div><div class="card-icon purple"><i class="fas fa-brain"></i></div></div>
+<div style="text-align:center;padding:2rem"><div style="font-size:4rem;margin-bottom:1rem">🧠</div><div style="font-size:2rem;font-weight:900;color:var(--primary)">87%</div><div style="font-size:1rem;opacity:0.7;margin-top:0.5rem">مستوى الوعي الحالي</div></div>
+<div class="progress-container"><div class="progress-label"><span>التركيز</span><span>92%</span></div><div class="progress-bar"><div class="progress-fill" style="width:92%;background:var(--primary)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>الوعي الذاتي</span><span>85%</span></div><div class="progress-bar"><div class="progress-fill" style="width:85%;background:var(--secondary)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>المنطق</span><span>96%</span></div><div class="progress-bar"><div class="progress-fill" style="width:96%;background:var(--info)"></div></div></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">نبض الوعي</div><div class="card-icon cyan"><i class="fas fa-heartbeat"></i></div></div>
+<div class="chart-container"><canvas id="awarenessPulseChart"></canvas></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">الحواس النشطة</div><div class="card-icon green"><i class="fas fa-hand-sparkles"></i></div></div>
+<div style="padding:1rem">
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">البصر - معالجة بصرية نشطة</div><span class="badge badge-success">نشط</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">السمع - تحليل الصوتيات</div><span class="badge badge-success">نشط</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">الإدراك - فهم السياق</div><span class="badge badge-success">نشط</span></div>
+<div class="task-item"><div class="task-checkbox"></div><div class="task-content">الإحساس - معالجة لمسية</div><span class="badge badge-warning">معلق</span></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">وعي الزمن</div><div class="card-icon gold"><i class="fas fa-hourglass-half"></i></div></div>
+<div style="text-align:center;padding:2rem"><div style="font-size:3rem;margin-bottom:1rem">⏳</div><div style="font-size:1.5rem;font-weight:700">الزمن الحاضر</div><div style="font-size:0.9rem;opacity:0.7;margin-top:0.5rem">الوعي باللحظة الراهنة: 94%</div></div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="thinking">
+<div class="section-title"><i class="fas fa-lightbulb"></i> التفكير الحالي</div>
+<div class="card-grid">
+<div class="card" style="grid-column:span 2">
+<div class="card-header"><div class="card-title">محادثة العقل الواعي</div><div class="card-icon purple"><i class="fas fa-comments"></i></div></div>
+<div class="chat-container" style="height:450px">
+<div class="chat-messages" id="consciousChat">
+<div class="chat-message system"><div style="font-weight:700;margin-bottom:0.25rem">العقل الواعي</div>أنا أحلل البيانات الواردة من جميع الأنظمة الفرعية. كل شيء يبدو طبيعياً.</div>
+<div class="chat-message user"><div style="font-weight:700;margin-bottom:0.25rem">الاستعلام</div>ما هي الأولوية الحالية؟</div>
+<div class="chat-message system"><div style="font-weight:700;margin-bottom:0.25rem">العقل الواعي</div>الأولوية الحالية: مراقبة كاشف الشذوذ - هناك 3 حالات تتطلب المتابعة.</div>
+</div>
+<div class="chat-input-area">
+<input type="text" class="chat-input" id="consciousInput" placeholder="اسأل العقل الواعي...">
+<button class="btn btn-primary" onclick="sendConsciousMessage()"><i class="fas fa-paper-plane"></i></button>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">أفكار حديثة</div><div class="card-icon cyan"><i class="fas fa-stream"></i></div></div>
+<div class="timeline" id="thoughtsTimeline"></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">عمق التفكير</div><div class="card-icon gold"><i class="fas fa-layer-group"></i></div></div>
+<div class="chart-container"><canvas id="thinkingDepthChart"></canvas></div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="neural">
+<div class="section-title"><i class="fas fa-project-diagram"></i> الشبكة العصبية</div>
+<div class="card-grid">
+<div class="card" style="grid-column:span 2">
+<div class="card-header"><div class="card-title">شبكة التفكير العصبية</div><div class="card-icon purple"><i class="fas fa-network-wired"></i></div></div>
+<canvas id="neuralCanvas" class="neural-canvas"></canvas>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">العقد النشطة</div><div class="card-icon cyan"><i class="fas fa-circle-nodes"></i></div></div>
+<div class="metric-value">2,847</div><div style="font-size:0.85rem;opacity:0.7">عقدة عصبية نشطة</div>
+<div class="memory-grid" id="neuralGrid"></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">الروابط العصبية</div><div class="card-icon green"><i class="fas fa-link"></i></div></div>
+<div style="padding:1rem">
+<div class="progress-container"><div class="progress-label"><span>الروابط القوية</span><span>1,240</span></div><div class="progress-bar"><div class="progress-fill" style="width:75%;background:var(--success)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>الروابط الضعيفة</span><span>856</span></div><div class="progress-bar"><div class="progress-fill" style="width:45%;background:var(--warning)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>الروابط الجديدة</span><span>234</span></div><div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--info)"></div></div></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">نشاط الدماغ</div><div class="card-icon red"><i class="fas fa-wave-square"></i></div></div>
+<div class="chart-container"><canvas id="brainWaveChart"></canvas></div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="decisions">
+<div class="section-title"><i class="fas fa-gavel"></i> محرك القرار</div>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><div class="card-title">القرارات الأخيرة</div><div class="card-icon purple"><i class="fas fa-list-check"></i></div></div>
+<div class="timeline" id="decisionsTimeline"></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">كفاءة القرار</div><div class="card-icon cyan"><i class="fas fa-chart-line"></i></div></div>
+<div class="chart-container"><canvas id="decisionEfficiencyChart"></canvas></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">المنطق المستخدم</div><div class="card-icon green"><i class="fas fa-sitemap"></i></div></div>
+<div style="padding:1rem">
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">المنطق الاستقرائي</div><span class="badge badge-success">94%</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">المنطق الاستنباطي</div><span class="badge badge-success">89%</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">المنطق الاحتمالي</div><span class="badge badge-success">91%</span></div>
+<div class="task-item"><div class="task-checkbox"></div><div class="task-content">المنطق الوجداني</div><span class="badge badge-warning">72%</span></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">التحيزات المكتشفة</div><div class="card-icon warning"><i class="fas fa-balance-scale"></i></div></div>
+<div style="padding:1rem">
+<div class="progress-container"><div class="progress-label"><span>التحيز التأكيدي</span><span>12%</span></div><div class="progress-bar"><div class="progress-fill" style="width:12%;background:var(--danger)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>التحيز المتاح</span><span>8%</span></div><div class="progress-bar"><div class="progress-fill" style="width:8%;background:var(--warning)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>التحيز الاستباقي</span><span>5%</span></div><div class="progress-bar"><div class="progress-fill" style="width:5%;background:var(--success)"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="logic">
+<div class="section-title"><i class="fas fa-brain"></i> المنطق والتحليل</div>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><div class="card-title">التحليل المنطقي</div><div class="card-icon purple"><i class="fas fa-puzzle-piece"></i></div></div>
+<div class="metric-value">96%</div><div style="font-size:0.85rem;opacity:0.7">دقة التحليل المنطقي</div>
+<div style="margin-top:1rem">
+<div class="progress-container"><div class="progress-label"><span>التحليل الرياضي</span><span>98%</span></div><div class="progress-bar"><div class="progress-fill" style="width:98%;background:var(--success)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>التحليل الرمزي</span><span>94%</span></div><div class="progress-bar"><div class="progress-fill" style="width:94%;background:var(--primary)"></div></div></div>
+<div class="progress-container"><div class="progress-label"><span>التحليل المجرد</span><span>91%</span></div><div class="progress-bar"><div class="progress-fill" style="width:91%;background:var(--info)"></div></div></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">الاستدلال</div><div class="card-icon cyan"><i class="fas fa-route"></i></div></div>
+<div class="chart-container"><canvas id="reasoningChart"></canvas></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">المعادلات النشطة</div><div class="card-icon gold"><i class="fas fa-square-root-variable"></i></div></div>
+<div class="terminal" style="height:250px;font-size:0.75rem">
+<div class="terminal-line"><span class="terminal-time">[الآن]</span> <span class="terminal-info">P(A|B) = P(B|A) × P(A) / P(B)</span></div>
+<div class="terminal-line"><span class="terminal-time">[الآن]</span> <span class="terminal-info">f(x) = Σ(w_i × x_i) + b</span></div>
+<div class="terminal-line"><span class="terminal-time">[الآن]</span> <span class="terminal-success">∇L = ∂L/∂w = 2×(y_pred - y_true)×x</span></div>
+<div class="terminal-line"><span class="terminal-time">[الآن]</span> <span class="terminal-info">σ(z) = 1 / (1 + e^(-z))</span></div>
+<div class="terminal-line"><span class="terminal-time">[الآن]</span> <span class="terminal-success">Q(s,a) = R + γ × max(Q(s',a'))</span></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">الحلول المقترحة</div><div class="card-icon green"><i class="fas fa-lightbulb"></i></div></div>
+<div style="padding:1rem">
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">تحسين أداء قاعدة البيانات</div><span class="badge badge-success">93%</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">توزيع الحمل على السيرفر 2</div><span class="badge badge-success">91%</span></div>
+<div class="task-item"><div class="task-checkbox"></div><div class="task-content">تفعيل وضع توفير الطاقة</div><span class="badge badge-warning">76%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="memory">
+<div class="section-title"><i class="fas fa-memory"></i> الذاكرة العاملة</div>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><div class="card-title">الذاكرة العاملة</div><div class="card-icon purple"><i class="fas fa-microchip"></i></div></div>
+<div class="metric-value">4.2 GB</div><div style="font-size:0.85rem;opacity:0.7">من 8 GB إجمالي</div>
+<div class="memory-grid" id="workingMemoryGrid"></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">الكيانات النشطة</div><div class="card-icon cyan"><i class="fas fa-cubes"></i></div></div>
+<div style="padding:1rem">
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">كاشف الشذوذ - 3 حالات</div><span class="badge badge-warning">عالٍ</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">الحصن - 1,247 تهديد</div><span class="badge badge-success">محمي</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">الخزينة - $2.8M</div><span class="badge badge-success">مستقر</span></div>
+<div class="task-item"><div class="task-checkbox checked"></div><div class="task-content">محرك الإيرادات - $12,450/يوم</div><span class="badge badge-success">نمو</span></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">تدفق المعلومات</div><div class="card-icon green"><i class="fas fa-stream"></i></div></div>
+<div class="chart-container"><canvas id="infoFlowChart"></canvas></div>
+</div>
+<div class="card">
+<div class="card-header"><div class="card-title">التداخل المعرفي</div><div class="card-icon gold"><i class="fas fa-project-diagram"></i></div></div>
+<div style="text-align:center;padding:2rem"><div style="font-size:3rem;margin-bottom:1rem">🔄</div><div style="font-size:1.2rem;font-weight:700">12 معالجة متوازية</div><div style="font-size:0.9rem;opacity:0.7;margin-top:0.5rem">بدون تداخل سلبي</div></div>
+</div>
+</div>
+</div>
+</main>
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal"><div class="modal-header"><h3 id="modalTitle">عنوان</h3><button class="modal-close" onclick="closeModal()">&times;</button></div><div id="modalContent"></div></div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>"""
+
+with open(f'{session2_dir}/index.html', 'w', encoding='utf-8') as f:
+    f.write(html_s2)
+
+js_s2 = """const thoughts=[{time:'منذ 5 دقائق',text:'تحليل بيانات كاشف الشذوذ - 3 حالات جديدة'},{time:'منذ 12 دقيقة',text:'تقييم أداء محرك الإيرادات - نمو 8.3%'},{time:'منذ 25 دقيقة',text:'مراجعة سجل الحصن - 23 تهديد جديد محظور'},{time:'منذ 40 دقيقة',text:'تحليل نمط المستخدمين - زيادة 18%'},{time:'منذ ساعة',text:'تخطيط تحسين قاعدة البيانات'}];
+const decisions=[{time:'منذ 5 دقائق',text:'تفعيل بروتوكول الأمان المستوى 3',impact:'حماية إضافية'},{time:'منذ 15 دقيقة',text:'توزيع حمل إضافي على السيرفر 2',impact:'-12ms استجابة'},{time:'منذ 30 دقيقة',text:'تحديث قاعدة بيانات الشذوذات',impact:'+8% دقة'},{time:'منذ ساعة',text:'تفعيل 5 تحسينات جديدة',impact:'+3% أداء'},{time:'منذ 3 ساعات',text:'إطلاق حملة تسويقية تلقائية',impact:'+12% وصول'}];
+document.addEventListener('DOMContentLoaded',function(){initBackground();initClock();initChartsS2();initThoughtsTimeline();initDecisionsTimeline();initNeuralCanvasS2();initWorkingMemory();document.querySelectorAll('.nav-tab').forEach(tab=>{tab.addEventListener('click',function(){document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.getElementById(this.dataset.tab).classList.add('active');});});setInterval(updateClock,1000);});
+function initBackground(){const c=document.getElementById('bgAnimation');for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';p.style.width=Math.random()*10+5+'px';p.style.height=p.style.width;p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.animationDelay=Math.random()*15+'s';p.style.animationDuration=(Math.random()*10+10)+'s';c.appendChild(p);}}
+function initClock(){function u(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('ar-SA');}u();setInterval(u,1000);}
+function initChartsS2(){new Chart(document.getElementById('awarenessPulseChart').getContext('2d'),{type:'line',data:{labels:Array.from({length:20},(_,i)=>`${i}s`),datasets:[{data:Array.from({length:20},()=>80+Math.random()*15),borderColor:'#6c5ce7',backgroundColor:'rgba(108,92,231,0.1)',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}});new Chart(document.getElementById('thinkingDepthChart').getContext('2d'),{type:'radar',data:{labels:['سطحي','تحليلي','نقدي','إبداعي','استراتيجي','فلسفي'],datasets:[{data:[30,75,85,60,90,45],borderColor:'#00cec9',backgroundColor:'rgba(0,206,201,0.2)',pointBackgroundColor:'#00cec9'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{ticks:{color:'rgba(255,255,255,0.6)',backdropColor:'transparent'},grid:{color:'rgba(255,255,255,0.1)'},pointLabels:{color:'rgba(255,255,255,0.8)'}}}}});new Chart(document.getElementById('brainWaveChart').getContext('2d'),{type:'line',data:{labels:Array.from({length:30},(_,i)=>i),datasets:[{label:'ألفا',data:Array.from({length:30},()=>Math.random()*30+40),borderColor:'#6c5ce7',tension:0.4},{label:'بيتا',data:Array.from({length:30},()=>Math.random()*20+20),borderColor:'#00cec9',tension:0.4},{label:'جاما',data:Array.from({length:30},()=>Math.random()*15+10),borderColor:'#fdcb6e',tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'white'}}},scales:{x:{display:false},y:{ticks:{color:'rgba(255,255,255,0.6)'},grid:{color:'rgba(255,255,255,0.05)'}}}});new Chart(document.getElementById('decisionEfficiencyChart').getContext('2d'),{type:'bar',data:{labels:['سريع','متوسط','معقد','استراتيجي'],datasets:[{data:[95,88,76,82],backgroundColor:['#00b894','#74b9ff','#fdcb6e','#e17055']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'rgba(255,255,255,0.6)'},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'rgba(255,255,255,0.6)'},grid:{color:'rgba(255,255,255,0.05)'}}}});new Chart(document.getElementById('reasoningChart').getContext('2d'),{type:'doughnut',data:{labels:['استقرائي','استنباطي','احتمالي','وجداني'],datasets:[{data:[35,30,25,10],backgroundColor:['#6c5ce7','#00cec9','#74b9ff','#fdcb6e']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'white'}}}}});new Chart(document.getElementById('infoFlowChart').getContext('2d'),{type:'line',data:{labels:Array.from({length:12},(_,i)=>`${i*5}د`),datasets:[{data:[120,135,128,145,160,155,170,165,180,175,190,185],borderColor:'#00b894',backgroundColor:'rgba(0,184,148,0.1)',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'rgba(255,255,255,0.6)'},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'rgba(255,255,255,0.6)'},grid:{color:'rgba(255,255,255,0.05)'}}}}});}
+function initThoughtsTimeline(){const c=document.getElementById('thoughtsTimeline');thoughts.forEach(t=>{const i=document.createElement('div');i.className='timeline-item';i.innerHTML=`<div class="timeline-time">${t.time}</div><div>${t.text}</div>`;c.appendChild(i);});}
+function initDecisionsTimeline(){const c=document.getElementById('decisionsTimeline');decisions.forEach(d=>{const i=document.createElement('div');i.className='timeline-item';i.innerHTML=`<div class="timeline-time">${d.time}</div><div>${d.text}</div><div style="font-size:0.8rem;color:var(--success);margin-top:0.25rem">${d.impact}</div>`;c.appendChild(i);});}
+function initNeuralCanvasS2(){const canvas=document.getElementById('neuralCanvas');if(!canvas)return;const ctx=canvas.getContext('2d');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;const nodes=[];for(let i=0;i<40;i++)nodes.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.8,vy:(Math.random()-0.5)*0.8,radius:Math.random()*4+2});function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>canvas.width)n.vx*=-1;if(n.y<0||n.y>canvas.height)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);ctx.fillStyle='rgba(108,92,231,0.7)';ctx.fill();});for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.strokeStyle=`rgba(108,92,231,${1-dist/120})`;ctx.lineWidth=0.5;ctx.stroke();}}requestAnimationFrame(animate);}animate();}
+function initWorkingMemory(){const g=document.getElementById('workingMemoryGrid');if(!g)return;for(let i=0;i<50;i++){const c=document.createElement('div');c.className='memory-cell';if(Math.random()>0.4)c.classList.add('active');if(Math.random()>0.85)c.classList.add('hot');g.appendChild(c);}}
+function sendConsciousMessage(){const input=document.getElementById('consciousInput');const chat=document.getElementById('consciousChat');if(!input.value.trim())return;const userMsg=document.createElement('div');userMsg.className='chat-message user';userMsg.innerHTML=`<div style="font-weight:700;margin-bottom:0.25rem">الاستعلام</div>${input.value}`;chat.appendChild(userMsg);setTimeout(()=>{const responses=['أحلل البيانات الواردة. كل المؤشرات ضمن النطاق الطبيعي.','تم رصد نشاط غير عادي في السيرفر 7. جاري التحقق.','الأولوية الحالية: تحسين أداء قاعدة البيانات.','جميع الأنظمة تعمل بكامل طاقتها.','أنصح بتفعيل التحسين 45 لزيادة كفاءة الاستجابة.'];const sysMsg=document.createElement('div');sysMsg.className='chat-message system';sysMsg.innerHTML=`<div style="font-weight:700;margin-bottom:0.25rem">العقل الواعي</div>${responses[Math.floor(Math.random()*responses.length)]}`;chat.appendChild(sysMsg);chat.scrollTop=chat.scrollHeight;},1000);input.value='';chat.scrollTop=chat.scrollHeight;}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active');}
+document.getElementById('consciousInput').addEventListener('keypress',function(e){if(e.key==='Enter')sendConsciousMessage();});
+"""
+
+with open(f'{session2_dir}/js/main.js', 'w', encoding='utf-8') as f:
+    f.write(js_s2)
+
+zip_s2 = f'{base_output}/session_02_conscious.zip'
+with zipfile.ZipFile(zip_s2, 'w', zipfile.ZIP_DEFLATED) as zf:
+    for root, dirs, files in os.walk(session2_dir):
+        for file in files:
+            fp = os.path.join(root, file)
+            zf.write(fp, os.path.relpath(fp, session2_dir))
+
+s2_size = os.path.getsize(zip_s2)
+print(f"✅ الجلسة 2 - العقل الواعي: {s2_size:,} بايت ({s2_size/1024:.1f} KB)")

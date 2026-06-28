@@ -1,0 +1,2846 @@
+import os
+import zipfile
+import json
+
+# Create directory structure
+base_dir = '/mnt/agents/output/yasmine_kingdom'
+dirs = [
+    f'{base_dir}/css',
+    f'{base_dir}/js',
+    f'{base_dir}/data',
+    f'{base_dir}/backend',
+    f'{base_dir}/assets/images',
+    f'{base_dir}/assets/fonts',
+]
+
+for d in dirs:
+    os.makedirs(d, exist_ok=True)
+
+print("✅ تم إنشاء هيكل المجلدات")
+
+
+
+
+٢
+
+# 1. CSS - styles.css
+css_content = """/* مملكة ياسمين - النظام الذاتي المتكامل */
+:root {
+    --primary: #6c5ce7;
+    --primary-dark: #5649c0;
+    --secondary: #00cec9;
+    --accent: #fdcb6e;
+    --danger: #e17055;
+    --success: #00b894;
+    --warning: #fdcb6e;
+    --info: #74b9ff;
+    --dark: #2d3436;
+    --darker: #1a1a2e;
+    --light: #dfe6e9;
+    --glass: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Animation */
+.bg-animation {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+.bg-animation .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(108, 92, 231, 0.3);
+    animation: float 15s infinite ease-in-out;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+    50% { transform: translateY(-100px) scale(1.5); opacity: 0.6; }
+}
+
+/* Header */
+.main-header {
+    background: linear-gradient(90deg, rgba(108,92,231,0.3), rgba(0,206,201,0.3));
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.logo-icon {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 0 20px rgba(108,92,231,0.5);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(108,92,231,0.5); }
+    50% { box-shadow: 0 0 40px rgba(108,92,231,0.8); }
+}
+.logo-text h1 { font-size: 1.5rem; font-weight: 900; }
+.logo-text span { font-size: 0.8rem; opacity: 0.8; }
+
+.system-status {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.status-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: var(--glass);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+.status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+.status-dot.online { background: var(--success); }
+.status-dot.warning { background: var(--warning); }
+.status-dot.danger { background: var(--danger); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Navigation */
+.nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: rgba(0,0,0,0.2);
+    overflow-x: auto;
+}
+.nav-tab {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.nav-tab:hover { background: var(--glass); border-color: var(--glass-border); }
+.nav-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(108,92,231,0.3);
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+.card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+}
+.card-title { font-size: 1.1rem; font-weight: 700; }
+.card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+}
+.card-icon.purple { background: rgba(108,92,231,0.2); color: var(--primary); }
+.card-icon.cyan { background: rgba(0,206,201,0.2); color: var(--secondary); }
+.card-icon.gold { background: rgba(253,203,110,0.2); color: var(--accent); }
+.card-icon.red { background: rgba(225,112,85,0.2); color: var(--danger); }
+.card-icon.green { background: rgba(0,184,148,0.2); color: var(--success); }
+.card-icon.blue { background: rgba(116,185,255,0.2); color: var(--info); }
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0.5rem 0;
+}
+.metric-change {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    display: inline-flex; align-items: center; gap: 0.25rem;
+}
+.metric-change.up { background: rgba(0,184,148,0.2); color: var(--success); }
+.metric-change.down { background: rgba(225,112,85,0.2); color: var(--danger); }
+
+/* Progress Bars */
+.progress-container { margin: 1rem 0; }
+.progress-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+.progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+    position: relative;
+}
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+/* Terminal */
+.terminal {
+    background: #0a0a0a;
+    border-radius: 15px;
+    padding: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #333;
+}
+.terminal-line { margin: 0.25rem 0; }
+.terminal-time { color: #666; }
+.terminal-info { color: var(--info); }
+.terminal-success { color: var(--success); }
+.terminal-warning { color: var(--warning); }
+.terminal-error { color: var(--danger); }
+.terminal-system { color: var(--primary); }
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+.btn-secondary { background: var(--glass); color: white; border: 1px solid var(--glass-border); }
+.btn-success { background: linear-gradient(135deg, var(--success), #00a884); color: white; }
+.btn-danger { background: linear-gradient(135deg, var(--danger), #d63031); color: white; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+.data-table th, .data-table td {
+    padding: 1rem;
+    text-align: right;
+    border-bottom: 1px solid var(--glass-border);
+}
+.data-table th {
+    background: rgba(0,0,0,0.2);
+    font-weight: 700;
+    color: var(--accent);
+}
+.data-table tr:hover { background: var(--glass); }
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.badge-success { background: rgba(0,184,148,0.2); color: var(--success); }
+.badge-warning { background: rgba(253,203,110,0.2); color: var(--warning); }
+.badge-danger { background: rgba(225,112,85,0.2); color: var(--danger); }
+.badge-info { background: rgba(116,185,255,0.2); color: var(--info); }
+
+/* Form Elements */
+.form-group { margin-bottom: 1rem; }
+.form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.3s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.2);
+}
+.form-textarea { min-height: 100px; resize: vertical; }
+
+/* Animations */
+.fade-in-up { animation: fadeInUp 0.6s ease-out; }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.scan-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+    animation: scan 3s linear infinite;
+    opacity: 0.5;
+}
+@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-header { flex-direction: column; gap: 1rem; }
+    .system-status { flex-wrap: wrap; justify-content: center; }
+    .card-grid { grid-template-columns: 1fr; }
+    .main-content { padding: 1rem; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--darker); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+/* Neural Network */
+.neural-canvas {
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-right: 2rem;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+}
+.timeline-item {
+    position: relative;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--glass);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    right: -2.35rem;
+    top: 1.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid var(--darker);
+}
+.timeline-time { font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem; }
+
+/* Loading Spinner */
+.spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.dashboard-grid .card:first-child { grid-column: span 2; grid-row: span 2; }
+@media (max-width: 1024px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid .card:first-child { grid-column: span 2; }
+}
+@media (max-width: 768px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .dashboard-grid .card:first-child { grid-column: span 1; grid-row: span 1; }
+}
+
+/* Alert Box */
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+    border: 1px solid transparent;
+}
+.alert-info { background: rgba(116,185,255,0.1); border-color: rgba(116,185,255,0.3); color: var(--info); }
+.alert-success { background: rgba(0,184,148,0.1); border-color: rgba(0,184,148,0.3); color: var(--success); }
+.alert-warning { background: rgba(253,203,110,0.1); border-color: rgba(253,203,110,0.3); color: var(--warning); }
+.alert-danger { background: rgba(225,112,85,0.1); border-color: rgba(225,112,85,0.3); color: var(--danger); }
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 2000;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: modalIn 0.3s;
+}
+@keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    width: 50px; height: 26px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.toggle-switch.active { background: var(--success); }
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 20px; height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+.toggle-switch.active::after { transform: translateX(-24px); }
+
+/* Section Title */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--glass-border), transparent);
+    margin-right: 1rem;
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin: 1rem 0;
+}
+
+/* Task List */
+.task-list { list-style: none; }
+.task-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem;
+    background: var(--glass);
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s;
+}
+.task-item:hover { background: rgba(255,255,255,0.08); }
+.task-checkbox {
+    width: 20px; height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+}
+.task-checkbox.checked { background: var(--primary); }
+.task-checkbox.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 0.8rem;
+}
+.task-content { flex: 1; }
+.task-content.completed { text-decoration: line-through; opacity: 0.5; }
+
+/* Memory Grid */
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    margin: 1rem 0;
+}
+.memory-cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.memory-cell.active { background: var(--primary); box-shadow: 0 0 10px rgba(108,92,231,0.5); }
+.memory-cell.hot { background: var(--danger); }
+.memory-cell.warm { background: var(--warning); }
+.memory-cell.cold { background: var(--secondary); }
+
+/* Anomaly Radar */
+.anomaly-radar {
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 2px solid var(--glass-border);
+    position: relative;
+    margin: 1rem auto;
+}
+.anomaly-radar::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100%; height: 2px;
+    background: var(--glass-border);
+    transform: translate(-50%, -50%);
+}
+.anomaly-radar::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 2px; height: 100%;
+    background: var(--glass-border);
+    transform: translate(-50%, -50%);
+}
+.radar-sweep {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 50%; height: 2px;
+    background: linear-gradient(90deg, var(--secondary), transparent);
+    transform-origin: left center;
+    animation: radarSweep 2s linear infinite;
+}
+@keyframes radarSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Revenue Flow */
+.revenue-flow {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem;
+    background: var(--glass);
+    border-radius: 15px;
+    margin-bottom: 1rem;
+}
+.revenue-node {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.2);
+    min-width: 120px;
+}
+.revenue-arrow {
+    font-size: 1.5rem;
+    color: var(--accent);
+    animation: flowArrow 1.5s infinite;
+}
+@keyframes flowArrow { 0%, 100% { opacity: 0.3; transform: translateX(0); } 50% { opacity: 1; transform: translateX(5px); } }
+
+/* Fortress Shield */
+.fortress-shield {
+    width: 150px; height: 150px;
+    margin: 1rem auto;
+    position: relative;
+}
+.shield-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid;
+    animation: shieldPulse 2s infinite;
+}
+.shield-ring:nth-child(1) { width: 100%; height: 100%; border-color: var(--danger); animation-delay: 0s; }
+.shield-ring:nth-child(2) { width: 75%; height: 75%; top: 12.5%; left: 12.5%; border-color: var(--warning); animation-delay: 0.3s; }
+.shield-ring:nth-child(3) { width: 50%; height: 50%; top: 25%; left: 25%; border-color: var(--success); animation-delay: 0.6s; }
+.shield-ring:nth-child(4) { width: 25%; height: 25%; top: 37.5%; left: 37.5%; border-color: var(--info); animation-delay: 0.9s; }
+@keyframes shieldPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Server Rack */
+.server-rack {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+.server-unit {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s;
+}
+.server-unit:hover { border-color: var(--primary); }
+.server-led {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    margin: 0.5rem auto;
+    animation: ledBlink 1s infinite;
+}
+.server-led.green { background: var(--success); }
+.server-led.yellow { background: var(--warning); animation-duration: 0.5s; }
+.server-led.red { background: var(--danger); animation: none; }
+@keyframes ledBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Chat Interface */
+.chat-container {
+    background: var(--glass);
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+.chat-message {
+    margin-bottom: 1rem;
+    max-width: 80%;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    animation: messageIn 0.3s;
+}
+@keyframes messageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.chat-message.user { background: var(--primary); margin-right: auto; border-bottom-right-radius: 4px; }
+.chat-message.system { background: rgba(0,0,0,0.3); margin-left: auto; border-bottom-left-radius: 4px; }
+.chat-input-area {
+    padding: 1rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex; gap: 0.5rem;
+}
+.chat-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.2);
+    color: white;
+    font-family: 'Cairo', sans-serif;
+}
+.chat-input:focus { outline: none; border-color: var(--primary); }
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .data-table { font-size: 0.8rem; }
+    .data-table th, .data-table td { padding: 0.5rem; }
+    .memory-grid { grid-template-columns: repeat(5, 1fr); }
+    .server-rack { grid-template-columns: repeat(2, 1fr); }
+}
+"""
+
+with open(f'{base_dir}/css/styles.css', 'w', encoding='utf-8') as f:
+    f.write(css_content)
+
+print("✅ تم إنشاء css/styles.css")
+
+
+٣
+
+# 2. JS - main.js
+js_main = """// مملكة ياسمين - النظام الذاتي المتكامل
+// المحرك الرئيسي
+
+// Global Data
+const systems = [
+    { name: 'العقل الواعي', status: 'online', response: '12ms', lastUpdate: 'الآن' },
+    { name: 'العقل غير الواعي', status: 'online', response: '8ms', lastUpdate: 'الآن' },
+    { name: 'الدمج', status: 'online', response: '15ms', lastUpdate: 'الآن' },
+    { name: 'الحصن', status: 'online', response: '5ms', lastUpdate: 'الآن' },
+    { name: 'كاشف الشذوذ', status: 'warning', response: '23ms', lastUpdate: 'منذ دقيقة' },
+    { name: 'الخزينة', status: 'online', response: '18ms', lastUpdate: 'الآن' },
+    { name: 'محرك الإيرادات', status: 'online', response: '20ms', lastUpdate: 'الآن' },
+    { name: 'محرك التوسع', status: 'online', response: '45ms', lastUpdate: 'منذ 5 دقائق' },
+    { name: 'بناء الأنظمة', status: 'online', response: '30ms', lastUpdate: 'الآن' },
+    { name: 'السيرفر', status: 'online', response: '3ms', lastUpdate: 'الآن' }
+];
+
+const enhancements = Array.from({length: 120}, (_, i) => ({
+    id: i + 1,
+    name: `تحسين ${i + 1}`,
+    category: ['أداء', 'أمان', 'واجهة', 'ذكاء', 'توسع', 'إيرادات'][i % 6],
+    status: 'active',
+    impact: Math.floor(Math.random() * 100)
+}));
+
+const terminalMessages = [
+    { type: 'system', text: 'تم إطلاق مملكة ياسمين بنجاح' },
+    { type: 'info', text: 'تحميل الأنظمة الفرعية...' },
+    { type: 'success', text: 'العقل الواعي: نشط' },
+    { type: 'success', text: 'العقل غير الواعي: نشط' },
+    { type: 'success', text: 'الحصن: محمي' },
+    { type: 'warning', text: 'كاشف الشذوذ: 3 حالات تحت المراقبة' },
+    { type: 'info', text: 'الخزينة: الرصيد $2,847,500' },
+    { type: 'success', text: 'محرك الإيرادات: $12,450/يوم' },
+    { type: 'info', text: 'دمج 120 تحسين...' },
+    { type: 'success', text: 'جميع التحسينات نشطة' }
+];
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    initBackground();
+    initClock();
+    initTerminal();
+    initCharts();
+    initMemoryGrid();
+    initIntegrationTable();
+    initDecisionsTimeline();
+    initDreams();
+    initInstincts();
+    initSecurityLog();
+    initAnomalies();
+    initFirewallStatus();
+    initTransactions();
+    initResources();
+    initRevenueEnhancements();
+    initExpansionProjects();
+    initCapacityMetrics();
+    initBuiltSystems();
+    initTemplates();
+    initBuildTimeline();
+    initServerRack();
+    initEnhancementsList();
+    initIntegrationTimeline();
+    initNeuralCanvas();
+    initCurrentDate();
+    initSelfHealing();
+    initDecisionEngine();
+    initLearningEngine();
+
+    // Tab Navigation
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Simulate real-time updates
+    setInterval(updateRealTimeData, 3000);
+    setInterval(simulateSelfHealing, 10000);
+    setInterval(simulateDecisions, 15000);
+});
+
+function initBackground() {
+    const container = document.getElementById('bgAnimation');
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = Math.random() * 10 + 5 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function initClock() {
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent = now.toLocaleTimeString('ar-SA');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+function initCurrentDate() {
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-SA', options);
+}
+
+function initTerminal() {
+    const terminal = document.getElementById('mainTerminal');
+    terminalMessages.forEach((msg, i) => {
+        setTimeout(() => {
+            addTerminalLine(terminal, msg);
+        }, i * 500);
+    });
+}
+
+function addTerminalLine(terminal, msg) {
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    const time = new Date().toLocaleTimeString('ar-SA');
+    line.innerHTML = `<span class="terminal-time">[${time}]</span> <span class="terminal-${msg.type}">${msg.text}</span>`;
+    terminal.appendChild(line);
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function clearTerminal() {
+    document.getElementById('mainTerminal').innerHTML = '';
+}
+
+function initCharts() {
+    // Ops Chart
+    const opsCtx = document.getElementById('opsChart').getContext('2d');
+    new Chart(opsCtx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 10}, (_, i) => `${i * 10}s`),
+            datasets: [{
+                label: 'عمليات/ثانية',
+                data: [2100, 2300, 2450, 2200, 2600, 2800, 2700, 2900, 2847, 3000],
+                borderColor: '#00cec9',
+                backgroundColor: 'rgba(0, 206, 201, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { x: { display: false }, y: { display: false } }
+        }
+    });
+
+    // Revenue Chart
+    const revCtx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(revCtx, {
+        type: 'bar',
+        data: {
+            labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
+            datasets: [{
+                label: 'الإيرادات',
+                data: [10500, 11200, 10800, 12450, 11800, 13200, 12900],
+                backgroundColor: 'rgba(253, 203, 110, 0.6)',
+                borderColor: '#fdcb6e',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Threats Chart
+    const threatCtx = document.getElementById('threatsChart').getContext('2d');
+    new Chart(threatCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['محظورة', 'تحت المراقبة', 'مسموحة'],
+            datasets: [{ data: [1247, 15, 2340], backgroundColor: ['#e17055', '#fdcb6e', '#00b894'] }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: 'white' } } }
+        }
+    });
+
+    // Anomaly Chart
+    const anomCtx = document.getElementById('anomalyChart').getContext('2d');
+    new Chart(anomCtx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [{
+                label: 'الشذوذات',
+                data: Array.from({length: 24}, () => Math.floor(Math.random() * 10)),
+                borderColor: '#e17055',
+                backgroundColor: 'rgba(225, 112, 85, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Detection Stats
+    const detCtx = document.getElementById('detectionStatsChart').getContext('2d');
+    new Chart(detCtx, {
+        type: 'pie',
+        data: {
+            labels: ['DDoS', 'Injection', 'Brute Force', 'Other'],
+            datasets: [{ data: [35, 25, 20, 20], backgroundColor: ['#e17055', '#fdcb6e', '#74b9ff', '#00b894'] }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: 'white' } } }
+        }
+    });
+
+    // Cash Flow
+    const cashCtx = document.getElementById('cashFlowChart').getContext('2d');
+    new Chart(cashCtx, {
+        type: 'line',
+        data: {
+            labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+            datasets: [
+                { label: 'الداخل', data: [180000, 195000, 210000, 225000, 240000, 255000], borderColor: '#00b894', backgroundColor: 'rgba(0, 184, 148, 0.1)', fill: true },
+                { label: 'الخارج', data: [120000, 125000, 130000, 135000, 140000, 145000], borderColor: '#e17055', backgroundColor: 'rgba(225, 112, 85, 0.1)', fill: true }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: 'white' } } },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Revenue Sources
+    const revSrcCtx = document.getElementById('revenueSourcesChart').getContext('2d');
+    new Chart(revSrcCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['الاشتراكات', 'الخدمات', 'المنتجات', 'الإعلانات', 'أخرى'],
+            datasets: [{ data: [40, 30, 15, 10, 5], backgroundColor: ['#6c5ce7', '#00cec9', '#fdcb6e', '#74b9ff', '#00b894'] }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: 'white' } } }
+        }
+    });
+
+    // Monthly Revenue
+    const monRevCtx = document.getElementById('monthlyRevenueChart').getContext('2d');
+    new Chart(monRevCtx, {
+        type: 'bar',
+        data: {
+            labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+            datasets: [{
+                label: 'الإيرادات',
+                data: [320000, 340000, 365000, 380000, 410000, 435000],
+                backgroundColor: 'rgba(253, 203, 110, 0.6)',
+                borderColor: '#fdcb6e',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // User Growth
+    const userCtx = document.getElementById('userGrowthChart').getContext('2d');
+    new Chart(userCtx, {
+        type: 'line',
+        data: {
+            labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+            datasets: [{
+                label: 'المستخدمين',
+                data: [8500, 9200, 9800, 10500, 11200, 12450],
+                borderColor: '#00b894',
+                backgroundColor: 'rgba(0, 184, 148, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            }
+        }
+    });
+
+    // Server Resources
+    const srvCtx = document.getElementById('serverResourcesChart').getContext('2d');
+    new Chart(srvCtx, {
+        type: 'radar',
+        data: {
+            labels: ['CPU', 'الذاكرة', 'الشبكة', 'التخزين', 'الأمان'],
+            datasets: [{
+                label: 'الاستخدام',
+                data: [65, 68, 45, 55, 92],
+                borderColor: '#6c5ce7',
+                backgroundColor: 'rgba(108, 92, 231, 0.2)',
+                pointBackgroundColor: '#6c5ce7'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: 'white' } } },
+            scales: {
+                r: {
+                    ticks: { color: 'rgba(255,255,255,0.6)', backdropColor: 'transparent' },
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    pointLabels: { color: 'rgba(255,255,255,0.8)' }
+                }
+            }
+        }
+    });
+}
+
+function initMemoryGrid() {
+    const grid = document.getElementById('memoryGrid');
+    for (let i = 0; i < 50; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'memory-cell';
+        if (Math.random() > 0.6) cell.classList.add('active');
+        if (Math.random() > 0.9) cell.classList.add('hot');
+        else if (Math.random() > 0.8) cell.classList.add('warm');
+        else if (Math.random() > 0.7) cell.classList.add('cold');
+        grid.appendChild(cell);
+    }
+}
+
+function initIntegrationTable() {
+    const tbody = document.getElementById('integrationTable');
+    systems.forEach(sys => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${sys.name}</td>
+            <td><span class="badge badge-${sys.status === 'online' ? 'success' : 'warning'}">${sys.status === 'online' ? 'متصل' : 'تحذير'}</span></td>
+            <td>${sys.response}</td>
+            <td>${sys.lastUpdate}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function initDecisionsTimeline() {
+    const container = document.getElementById('decisionsTimeline');
+    const decisions = [
+        { time: 'منذ 5 دقائق', text: 'تفعيل بروتوكول الأمان المستوى 3' },
+        { time: 'منذ 15 دقيقة', text: 'توزيع حمل إضافي على السيرفر 2' },
+        { time: 'منذ 30 دقيقة', text: 'تحديث قاعدة بيانات الشذوذات' },
+        { time: 'منذ ساعة', text: 'تفعيل 5 تحسينات جديدة' },
+        { time: 'منذ 3 ساعات', text: 'إطلاق حملة تسويقية تلقائية' }
+    ];
+    decisions.forEach(d => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `<div class="timeline-time">${d.time}</div><div>${d.text}</div>`;
+        container.appendChild(item);
+    });
+}
+
+function initDreams() {
+    const container = document.getElementById('dreamsContainer');
+    const dreams = [
+        { text: 'التنبؤ: زيادة حركة المرور بنسبة 25% خلال 48 ساعة', confidence: 87 },
+        { text: 'التنبؤ: محاولة اختراق محتملة من IP مجهول', confidence: 64 },
+        { text: 'التنبؤ: فرصة استثمارية في السوق الآسيوي', confidence: 72 },
+        { text: 'التنبؤ: انخفاض في أداء السيرفر 3 خلال 6 ساعات', confidence: 91 },
+        { text: 'التنبؤ: زيادة في الطلب على الخدمة الرقمية 7', confidence: 78 }
+    ];
+    dreams.forEach(dream => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding: 1rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border-right: 3px solid var(--primary);';
+        div.innerHTML = `
+            <div style="font-size: 0.9rem; margin-bottom: 0.5rem;">${dream.text}</div>
+            <div class="progress-container">
+                <div class="progress-label"><span>الثقة</span><span>${dream.confidence}%</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: ${dream.confidence}%; background: var(--secondary);"></div></div>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initInstincts() {
+    const list = document.getElementById('instinctsList');
+    const instincts = [
+        { text: 'غريزة الحماية: رصد نشاط مشبوه', active: true },
+        { text: 'غريزة البقاء: تحسين استخدام الموارد', active: true },
+        { text: 'غريزة التعلم: تحليل أنماط جديدة', active: true },
+        { text: 'غريزة التكاثر: نسخ احتياطي تلقائي', active: false },
+        { text: 'غريزة الصيد: البحث عن فرص إيرادات', active: true }
+    ];
+    instincts.forEach(inst => {
+        const item = document.createElement('li');
+        item.className = 'task-item';
+        item.innerHTML = `
+            <div class="task-checkbox ${inst.active ? 'checked' : ''}"></div>
+            <div class="task-content ${inst.active ? 'completed' : ''}">${inst.text}</div>
+            <span class="badge ${inst.active ? 'badge-success' : 'badge-warning'}">${inst.active ? 'نشط' : 'معلق'}</span>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function initSecurityLog() {
+    const tbody = document.getElementById('securityLog');
+    const logs = [
+        { time: '06:30:15', type: 'DDoS', source: '192.168.x.x', action: 'حظر', status: 'success' },
+        { time: '06:25:42', type: 'Injection', source: '10.0.x.x', action: 'حظر', status: 'success' },
+        { time: '06:20:10', type: 'Brute Force', source: '172.16.x.x', action: 'تحذير', status: 'warning' },
+        { time: '06:15:33', type: 'Scan', source: 'unknown', action: 'مراقبة', status: 'info' },
+        { time: '06:10:05', type: 'DDoS', source: '192.168.x.x', action: 'حظر', status: 'success' }
+    ];
+    logs.forEach(log => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${log.time}</td>
+            <td>${log.type}</td>
+            <td>${log.source}</td>
+            <td>${log.action}</td>
+            <td><span class="badge badge-${log.status}">${log.status === 'success' ? 'نجح' : log.status === 'warning' ? 'تحذير' : 'معلومات'}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function initAnomalies() {
+    const container = document.getElementById('anomaliesList');
+    const anomalies = [
+        { id: 'ANM-001', type: 'استخدام CPU غير طبيعي', severity: 'medium', time: 'منذ 10 دقائق' },
+        { id: 'ANM-002', type: 'محاولة وصول غير مصرح', severity: 'high', time: 'منذ 25 دقيقة' },
+        { id: 'ANM-003', type: 'تأخر في الاستجابة', severity: 'low', time: 'منذ ساعة' }
+    ];
+    anomalies.forEach(anom => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding: 1rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; border-right: 3px solid ' + (anom.severity === 'high' ? 'var(--danger)' : anom.severity === 'medium' ? 'var(--warning)' : 'var(--info)') + ';';
+        div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700;">${anom.id}</div>
+                    <div style="font-size: 0.85rem; opacity: 0.7;">${anom.type}</div>
+                </div>
+                <span class="badge badge-${anom.severity === 'high' ? 'danger' : anom.severity === 'medium' ? 'warning' : 'info'}">${anom.severity === 'high' ? 'عالي' : anom.severity === 'medium' ? 'متوسط' : 'منخفض'}</span>
+            </div>
+            <div style="font-size: 0.8rem; opacity: 0.5; margin-top: 0.5rem;">${anom.time}</div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initFirewallStatus() {
+    const container = document.getElementById('firewallStatus');
+    const firewalls = [
+        { name: 'جدار النار الرئيسي', status: 'active', rules: 1240 },
+        { name: 'WAF', status: 'active', rules: 856 },
+        { name: 'IPS', status: 'active', rules: 2340 },
+        { name: 'DDoS Protection', status: 'active', rules: 450 }
+    ];
+    firewalls.forEach(fw => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px;';
+        div.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="status-dot online"></div>
+                <div>
+                    <div style="font-weight: 600;">${fw.name}</div>
+                    <div style="font-size: 0.8rem; opacity: 0.6;">${fw.rules} قاعدة</div>
+                </div>
+            </div>
+            <span class="badge badge-success">نشط</span>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initTransactions() {
+    const tbody = document.getElementById('transactionsTable');
+    const transactions = [
+        { date: '2026-06-27', type: 'إيداع', amount: '$50,000', status: 'success' },
+        { date: '2026-06-26', type: 'سحب', amount: '$12,000', status: 'success' },
+        { date: '2026-06-26', type: 'استثمار', amount: '$25,000', status: 'success' },
+        { date: '2026-06-25', type: 'إيداع', amount: '$35,000', status: 'success' },
+        { date: '2026-06-25', type: 'مصاريف', amount: '$8,500', status: 'warning' }
+    ];
+    transactions.forEach(t => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${t.date}</td>
+            <td>${t.type}</td>
+            <td style="color: ${t.type === 'إيداع' ? 'var(--success)' : t.type === 'سحب' || t.type === 'مصاريف' ? 'var(--danger)' : 'var(--accent)'}">${t.amount}</td>
+            <td><span class="badge badge-${t.status}">${t.status === 'success' ? 'مكتمل' : 'معلق'}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function initResources() {
+    const container = document.getElementById('resourcesList');
+    const resources = [
+        { name: 'الموارد البشرية', usage: 75, total: '24/32' },
+        { name: 'الخوادم', usage: 68, total: '12/18' },
+        { name: 'التخزين', usage: 45, total: '450TB/1PB' },
+        { name: 'النطاق الترددي', usage: 32, total: '320Gbps/1Tbps' }
+    ];
+    resources.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'progress-container';
+        div.innerHTML = `
+            <div class="progress-label"><span>${r.name}</span><span>${r.total}</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width: ${r.usage}%; background: ${r.usage > 80 ? 'var(--danger)' : r.usage > 60 ? 'var(--warning)' : 'var(--success)'}"></div></div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initRevenueEnhancements() {
+    const container = document.getElementById('revenueEnhancements');
+    const enhancements = [
+        { name: 'تحسين التسعير الذكي', impact: '+15%' },
+        { name: 'التسويق الآلي', impact: '+12%' },
+        { name: 'البيع المتقاطع', impact: '+8%' },
+        { name: 'الاحتفاظ بالعملاء', impact: '+10%' }
+    ];
+    enhancements.forEach(e => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px;';
+        div.innerHTML = `
+            <span>${e.name}</span>
+            <span style="color: var(--success); font-weight: 700;">${e.impact}</span>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initExpansionProjects() {
+    const list = document.getElementById('expansionProjects');
+    const projects = [
+        { name: 'توسع آسيوي - المرحلة 1', progress: 65 },
+        { name: 'مركز بيانات أوروبي', progress: 40 },
+        { name: 'شراكة أمريكا اللاتينية', progress: 25 },
+        { name: 'تحديث البنية التحتية', progress: 80 },
+        { name: 'تطبيق الجوال الجديد', progress: 90 }
+    ];
+    projects.forEach(p => {
+        const item = document.createElement('li');
+        item.className = 'task-item';
+        item.innerHTML = `
+            <div class="task-checkbox checked"></div>
+            <div class="task-content" style="flex: 1;">
+                <div style="font-weight: 600;">${p.name}</div>
+                <div class="progress-container" style="margin-top: 0.5rem;">
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${p.progress}%; background: var(--primary);"></div></div>
+                </div>
+            </div>
+            <span style="font-size: 0.85rem; color: var(--accent);">${p.progress}%</span>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function initCapacityMetrics() {
+    const container = document.getElementById('capacityMetrics');
+    const metrics = [
+        { name: 'القدرة الحالية', value: '12,450 مستخدم' },
+        { name: 'القدرة القصوى', value: '50,000 مستخدم' },
+        { name: 'معدل النمو', value: '+18%/شهر' },
+        { name: 'الوقت المتبقي', value: '4 أشهر' }
+    ];
+    metrics.forEach(m => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; justify-content: space-between; padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px;';
+        div.innerHTML = `<span style="opacity: 0.8;">${m.name}</span><span style="font-weight: 700;">${m.value}</span>`;
+        container.appendChild(div);
+    });
+}
+
+function initBuiltSystems() {
+    const container = document.getElementById('builtSystemsList');
+    const systems = [
+        { name: 'نظام التحليلات', type: 'معالج بيانات', status: 'active' },
+        { name: 'واجهة المستخدم الرئيسية', type: 'واجهة مستخدم', status: 'active' },
+        { name: 'معالج الدفع', type: 'وحدة خدمة', status: 'active' },
+        { name: 'نظام الإشعارات', type: 'وحدة خدمة', status: 'maintenance' }
+    ];
+    systems.forEach(s => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px;';
+        div.innerHTML = `
+            <div>
+                <div style="font-weight: 600;">${s.name}</div>
+                <div style="font-size: 0.8rem; opacity: 0.6;">${s.type}</div>
+            </div>
+            <span class="badge badge-${s.status === 'active' ? 'success' : 'warning'}">${s.status === 'active' ? 'نشط' : 'صيانة'}</span>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initTemplates() {
+    const container = document.getElementById('templatesList');
+    const templates = [
+        { name: 'قالب نظام API', desc: 'نظام واجهة برمجة تطبيقات جاهز' },
+        { name: 'قالب قاعدة بيانات', desc: 'هيكل قاعدة بيانات محسن' },
+        { name: 'قالب واجهة مستخدم', desc: 'واجهة مستخدم تفاعلية' },
+        { name: 'قالب معالج بيانات', desc: 'معالجة بيانات في الوقت الفعلي' }
+    ];
+    templates.forEach(t => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding: 1rem; margin-bottom: 0.5rem; background: rgba(0,0,0,0.2); border-radius: 8px; cursor: pointer; transition: all 0.3s;';
+        div.innerHTML = `
+            <div style="font-weight: 700; margin-bottom: 0.25rem;">${t.name}</div>
+            <div style="font-size: 0.85rem; opacity: 0.7;">${t.desc}</div>
+        `;
+        div.onclick = () => {
+            document.getElementById('systemName').value = t.name.replace('قالب ', '');
+            document.getElementById('systemDesc').value = t.desc;
+        };
+        container.appendChild(div);
+    });
+}
+
+function initBuildTimeline() {
+    const container = document.getElementById('buildTimeline');
+    const events = [
+        { time: 'اليوم 10:30', text: 'بناء نظام التحليلات' },
+        { time: 'اليوم 09:15', text: 'تحديث واجهة المستخدم' },
+        { time: 'أمس 16:45', text: 'بناء معالج الدفع' },
+        { time: 'أمس 14:20', text: 'إصلاح خطأ في نظام الإشعارات' }
+    ];
+    events.forEach(e => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `<div class="timeline-time">${e.time}</div><div>${e.text}</div>`;
+        container.appendChild(item);
+    });
+}
+
+function initServerRack() {
+    const container = document.getElementById('serverRack');
+    for (let i = 1; i <= 8; i++) {
+        const unit = document.createElement('div');
+        unit.className = 'server-unit';
+        const status = i <= 6 ? 'green' : i === 7 ? 'yellow' : 'red';
+        unit.innerHTML = `
+            <div style="font-size: 0.85rem; font-weight: 700;">SRV-${String(i).padStart(2, '0')}</div>
+            <div class="server-led ${status}"></div>
+            <div style="font-size: 0.75rem; opacity: 0.6;">${i <= 6 ? 'نشط' : i === 7 ? 'تحميل عالٍ' : 'غير نشط'}</div>
+            <div style="font-size: 0.7rem; opacity: 0.5; margin-top: 0.25rem;">${Math.floor(Math.random() * 30 + 40)}°C</div>
+        `;
+        container.appendChild(unit);
+    }
+}
+
+function initEnhancementsList() {
+    const container = document.getElementById('enhancementsList');
+    enhancements.slice(0, 20).forEach(e => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; margin-bottom: 0.25rem; background: rgba(0,0,0,0.2); border-radius: 6px; font-size: 0.85rem;';
+        div.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                <span>${e.name} - ${e.category}</span>
+            </div>
+            <span style="color: var(--accent); font-size: 0.75rem;">+${e.impact}%</span>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function initIntegrationTimeline() {
+    const container = document.getElementById('integrationTimeline');
+    const events = [
+        { time: 'الآن', text: 'مزامنة العقل الواعي مع غير الواعي' },
+        { time: 'منذ 5 دقائق', text: 'تحديث قاعدة بيانات الحصن' },
+        { time: 'منذ 15 دقيقة', text: 'دمج تحليلات كاشف الشذوذ' },
+        { time: 'منذ 30 دقيقة', text: 'مزامنة الخزينة مع محرك الإيرادات' }
+    ];
+    events.forEach(e => {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `<div class="timeline-time">${e.time}</div><div>${e.text}</div>`;
+        container.appendChild(item);
+    });
+}
+
+function initNeuralCanvas() {
+    const canvas = document.getElementById('neuralCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    const nodes = [];
+    for (let i = 0; i < 30; i++) {
+        nodes.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            radius: Math.random() * 3 + 2
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        nodes.forEach(node => {
+            node.x += node.vx;
+            node.y += node.vy;
+            if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+            if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(108, 92, 231, 0.6)';
+            ctx.fill();
+        });
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dx = nodes[i].x - nodes[j].x;
+                const dy = nodes[i].y - nodes[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                    ctx.beginPath();
+                    ctx.moveTo(nodes[i].x, nodes[i].y);
+                    ctx.lineTo(nodes[j].x, nodes[j].y);
+                    ctx.strokeStyle = `rgba(108, 92, 231, ${1 - dist / 100})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+// ========== SELF-HEALING ENGINE ==========
+function initSelfHealing() {
+    const container = document.getElementById('selfHealingStatus');
+    if (!container) return;
+    container.innerHTML = `
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🩹</div>
+            <div style="font-weight: 700; color: var(--success);">الشفاء الذاتي نشط</div>
+            <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">الأنظمة تُراقب ذاتياً</div>
+        </div>
+    `;
+}
+
+function simulateSelfHealing() {
+    const issues = [
+        { system: 'السيرفر 3', issue: 'ارتفاع درجة الحرارة', action: 'تفعيل التبريد التلقائي', fixed: true },
+        { system: 'قاعدة البيانات', issue: 'تأخر في الاستجابة', action: 'إعادة ضبط الاتصالات', fixed: true },
+        { system: 'الذاكرة المؤقتة', issue: 'استخدام مرتفع', action: 'تفريغ ذاتي', fixed: true }
+    ];
+    const issue = issues[Math.floor(Math.random() * issues.length)];
+    addTerminalLine(document.getElementById('mainTerminal'), {
+        type: 'warning',
+        text: `⚠️ ${issue.system}: ${issue.issue}`
+    });
+    setTimeout(() => {
+        addTerminalLine(document.getElementById('mainTerminal'), {
+            type: 'success',
+            text: `✅ ${issue.action} - تم الإصلاح`
+        });
+    }, 2000);
+}
+
+// ========== DECISION ENGINE ==========
+function initDecisionEngine() {
+    const container = document.getElementById('decisionEngine');
+    if (!container) return;
+    container.innerHTML = `
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+            <div style="font-weight: 700; color: var(--primary);">محرك القرار الذاتي</div>
+            <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">يُتخذ قرار كل 15 ثانية</div>
+        </div>
+    `;
+}
+
+function simulateDecisions() {
+    const decisions = [
+        { text: 'تفعيل التحسين 47 لتحسين الأداء', impact: '+3% سرعة' },
+        { text: 'إعادة توجيه حركة المرور إلى السيرفر 2', impact: '-12ms استجابة' },
+        { text: 'تحديث قاعدة بيانات الشذوذات', impact: '+8% دقة' },
+        { text: 'تفعيل وضع توفير الطاقة', impact: '-15% استهلاك' }
+    ];
+    const decision = decisions[Math.floor(Math.random() * decisions.length)];
+    addTerminalLine(document.getElementById('mainTerminal'), {
+        type: 'system',
+        text: `🧠 قرار ذاتي: ${decision.text} (${decision.impact})`
+    });
+}
+
+// ========== LEARNING ENGINE ==========
+function initLearningEngine() {
+    const container = document.getElementById('learningEngine');
+    if (!container) return;
+    container.innerHTML = `
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+            <div style="font-weight: 700; color: var(--secondary);">محرك التعلم المستمر</div>
+            <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">2,847 نمط مُحفوظ</div>
+        </div>
+    `;
+}
+
+function updateRealTimeData() {
+    document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 20 + 10) + '%';
+    document.getElementById('memUsage').textContent = (Math.random() * 2 + 3).toFixed(1) + ' GB';
+    document.getElementById('opsPerSec').textContent = Math.floor(Math.random() * 500 + 2500).toLocaleString();
+
+    const messages = [
+        { type: 'info', text: 'فحص دوري للأنظمة الفرعية' },
+        { type: 'success', text: 'اكتمال المزامنة التلقائية' },
+        { type: 'warning', text: 'استخدام CPU مرتفع مؤقتاً' },
+        { type: 'info', text: 'تحديث قاعدة البيانات' }
+    ];
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    addTerminalLine(document.getElementById('mainTerminal'), msg);
+
+    const cells = document.querySelectorAll('.memory-cell');
+    cells.forEach(cell => {
+        cell.className = 'memory-cell';
+        if (Math.random() > 0.6) cell.classList.add('active');
+        if (Math.random() > 0.9) cell.classList.add('hot');
+    });
+}
+
+function sendConsciousMessage() {
+    const input = document.getElementById('consciousInput');
+    const chat = document.getElementById('consciousChat');
+    if (!input.value.trim()) return;
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-message user';
+    userMsg.innerHTML = `<div style="font-weight: 700; margin-bottom: 0.25rem;">الاستعلام</div>${input.value}`;
+    chat.appendChild(userMsg);
+
+    setTimeout(() => {
+        const responses = [
+            'أنا أحلل البيانات الواردة. كل المؤشرات ضمن النطاق الطبيعي.',
+            'تم رصد نشاط غير عادي في السيرفر 7. جاري التحقق.',
+            'الأولوية الحالية: تحسين أداء قاعدة البيانات.',
+            'جميع الأنظمة تعمل بكامل طاقتها. لا توجد مشاكل حرجة.',
+            'أنصح بتفعيل التحسين 45 لزيادة كفاءة الاستجابة.'
+        ];
+        const sysMsg = document.createElement('div');
+        sysMsg.className = 'chat-message system';
+        sysMsg.innerHTML = `<div style="font-weight: 700; margin-bottom: 0.25rem;">العقل الواعي</div>${responses[Math.floor(Math.random() * responses.length)]}`;
+        chat.appendChild(sysMsg);
+        chat.scrollTop = chat.scrollHeight;
+    }, 1000);
+
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function buildSystem() {
+    const name = document.getElementById('systemName').value;
+    const type = document.getElementById('systemType').value;
+    if (!name) { alert('الرجاء إدخال اسم النظام'); return; }
+
+    addTerminalLine(document.getElementById('mainTerminal'), {
+        type: 'system', text: `بدء بناء النظام: ${name} (${type})`
+    });
+    setTimeout(() => {
+        addTerminalLine(document.getElementById('mainTerminal'), {
+            type: 'success', text: `تم بناء ${name} بنجاح!`
+        });
+    }, 2000);
+
+    document.getElementById('systemName').value = '';
+    document.getElementById('systemDesc').value = '';
+}
+
+function openModal(title, content) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalContent').innerHTML = content;
+    document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+}
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+document.getElementById('consciousInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendConsciousMessage();
+});
+"""
+
+with open(f'{base_dir}/js/main.js', 'w', encoding='utf-8') as f:
+    f.write(js_main)
+
+print("✅ تم إنشاء js/main.js")
+print(f"   الحجم: {len(js_main):,} حرف")
+
+
+
+
+٤
+
+base_dir = '/mnt/agents/output/yasmine_kingdom'
+
+# 2. JS - main.js
+js_main = """// مملكة ياسمين - النظام الذاتي المتكامل
+// المحرك الرئيسي
+
+// Global Data
+const systems = [
+    { name: 'العقل الواعي', status: 'online', response: '12ms', lastUpdate: 'الآن' },
+    { name: 'العقل غير الواعي', status: 'online', response: '8ms', lastUpdate: 'الآن' },
+    { name: 'الدمج', status: 'online', response: '15ms', lastUpdate: 'الآن' },
+    { name: 'الحصن', status: 'online', response: '5ms', lastUpdate: 'الآن' },
+    { name: 'كاشف الشذوذ', status: 'warning', response: '23ms', lastUpdate: 'منذ دقيقة' },
+    { name: 'الخزينة', status: 'online', response: '18ms', lastUpdate: 'الآن' },
+    { name: 'محرك الإيرادات', status: 'online', response: '20ms', lastUpdate: 'الآن' },
+    { name: 'محرك التوسع', status: 'online', response: '45ms', lastUpdate: 'منذ 5 دقائق' },
+    { name: 'بناء الأنظمة', status: 'online', response: '30ms', lastUpdate: 'الآن' },
+    { name: 'السيرفر', status: 'online', response: '3ms', lastUpdate: 'الآن' }
+];
+
+const enhancements = Array.from({length: 120}, (_, i) => ({
+    id: i + 1,
+    name: `تحسين ${i + 1}`,
+    category: ['أداء', 'أمان', 'واجهة', 'ذكاء', 'توسع', 'إيرادات'][i % 6],
+    status: 'active',
+    impact: Math.floor(Math.random() * 100)
+}));
+
+const terminalMessages = [
+    { type: 'system', text: 'تم إطلاق مملكة ياسمين بنجاح' },
+    { type: 'info', text: 'تحميل الأنظمة الفرعية...' },
+    { type: 'success', text: 'العقل الواعي: نشط' },
+    { type: 'success', text: 'العقل غير الواعي: نشط' },
+    { type: 'success', text: 'الحصن: محمي' },
+    { type: 'warning', text: 'كاشف الشذوذ: 3 حالات تحت المراقبة' },
+    { type: 'info', text: 'الخزينة: الرصيد $2,847,500' },
+    { type: 'success', text: 'محرك الإيرادات: $12,450/يوم' },
+    { type: 'info', text: 'دمج 120 تحسين...' },
+    { type: 'success', text: 'جميع التحسينات نشطة' }
+];
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    initBackground();
+    initClock();
+    initTerminal();
+    initCharts();
+    initMemoryGrid();
+    initIntegrationTable();
+    initDecisionsTimeline();
+    initDreams();
+    initInstincts();
+    initSecurityLog();
+    initAnomalies();
+    initFirewallStatus();
+    initTransactions();
+    initResources();
+    initRevenueEnhancements();
+    initExpansionProjects();
+    initCapacityMetrics();
+    initBuiltSystems();
+    initTemplates();
+    initBuildTimeline();
+    initServerRack();
+    initEnhancementsList();
+    initIntegrationTimeline();
+    initNeuralCanvas();
+    initCurrentDate();
+    initSelfHealing();
+    initDecisionEngine();
+    initLearningEngine();
+
+    // Tab Navigation
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Simulate real-time updates
+    setInterval(updateRealTimeData, 3000);
+    setInterval(simulateSelfHealing, 10000);
+    setInterval(simulateDecisions, 15000);
+});
+
+function initBackground() {
+    const container = document.getElementById('bgAnimation');
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = Math.random() * 10 + 5 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function initClock() {
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent = now.toLocaleTimeString('ar-SA');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+function initCurrentDate() {
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-SA', options);
+}
+
+function initTerminal() {
+    const terminal = document.getElementById('mainTerminal');
+    terminalMessages.forEach((msg, i) => {
+        setTimeout(() => {
+            addTerminalLine(terminal, msg);
+        }, i * 500);
+    });
+}
+
+function addTerminalLine(terminal, msg) {
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    const time = new Date().toLocaleTimeString('ar-SA');
+    line.innerHTML = `<span class="terminal-time">[${time}]</span> <span class="terminal-${msg.type}">${msg.text}</span>`;
+    terminal.appendChild(line);
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function clearTerminal() {
+    document.getElementById('mainTerminal').innerHTML = '';
+}
+
+function initCharts() {
+    // Ops Chart
+    const opsCtx = document.getElementById('opsChart').getContext('2d');
+    new Chart(opsCtx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length: 10}, (_, i) => `${i * 10}s`),
+            datasets: [{
+                label: 'عمليات/ثانية',
+                data: [2100, 2300, 2450, 2200, 2600, 2800, 2700, 2900, 2847, 3000],
+                borderColor: '#00cec9',
+                backgroundColor: 'rgba(0, 206, 201, 0.1)',
+                fill: true,
+      
+
+
+٦
+
+base_dir = '/mnt/agents/output/yasmine_kingdom'
+
+# 3. HTML - index.html (modular version)
+html_content = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مملكة ياسمين | النظام الذاتي المتكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <div class="logo-text">
+                <h1>مملكة ياسمين</h1>
+                <span>النظام الذاتي المتكامل v2.0</span>
+            </div>
+        </div>
+        <div class="system-status">
+            <div class="status-item">
+                <div class="status-dot online"></div>
+                <span>النظام نشط</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-microchip" style="color: var(--info);"></i>
+                <span id="cpuUsage">12%</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-memory" style="color: var(--accent);"></i>
+                <span id="memUsage">4.2 GB</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-clock" style="color: var(--secondary);"></i>
+                <span id="clock">00:00:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+        <div class="nav-tab active" data-tab="dashboard">
+            <i class="fas fa-th-large"></i> لوحة القيادة
+        </div>
+        <div class="nav-tab" data-tab="conscious">
+            <i class="fas fa-brain"></i> العقل الواعي
+        </div>
+        <div class="nav-tab" data-tab="unconscious">
+            <i class="fas fa-moon"></i> العقل غير الواعي
+        </div>
+        <div class="nav-tab" data-tab="integration">
+            <i class="fas fa-code-branch"></i> الدمج
+        </div>
+        <div class="nav-tab" data-tab="fortress">
+            <i class="fas fa-shield-alt"></i> الحصن
+        </div>
+        <div class="nav-tab" data-tab="anomaly">
+            <i class="fas fa-radar"></i> كاشف الشذوذ
+        </div>
+        <div class="nav-tab" data-tab="treasury">
+            <i class="fas fa-vault"></i> الخزينة
+        </div>
+        <div class="nav-tab" data-tab="revenue">
+            <i class="fas fa-coins"></i> محرك الإيرادات
+        </div>
+        <div class="nav-tab" data-tab="expansion">
+            <i class="fas fa-rocket"></i> التوسع
+        </div>
+        <div class="nav-tab" data-tab="builder">
+            <i class="fas fa-cogs"></i> بناء الأنظمة
+        </div>
+        <div class="nav-tab" data-tab="server">
+            <i class="fas fa-server"></i> السيرفر
+        </div>
+        <div class="nav-tab" data-tab="ai">
+            <i class="fas fa-robot"></i> الذكاء الذاتي
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span>مرحباً بك في مملكة ياسمين - النظام الذاتي المتكامل. جميع الأنظمة تعمل بكامل طاقتها.</span>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="scan-line"></div>
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">نظرة عامة على المملكة</div>
+                            <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">
+                                <i class="fas fa-calendar"></i> <span id="currentDate"></span>
+                            </div>
+                        </div>
+                        <div class="card-icon purple"><i class="fas fa-crown"></i></div>
+                    </div>
+                    <div class="metric-value" id="totalSystems">10</div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">نظام فرعي نشط</div>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="progress-container">
+                            <div class="progress-label"><span>صحة النظام العامة</span><span>98%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 98%; background: linear-gradient(90deg, var(--success), var(--secondary));"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>كفاءة الدمج</span><span>94%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 94%; background: linear-gradient(90deg, var(--primary), var(--info));"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الأمان</span><span>99%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 99%; background: linear-gradient(90deg, var(--danger), var(--warning));"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">العمليات/الثانية</div>
+                        <div class="card-icon cyan"><i class="fas fa-bolt"></i></div>
+                    </div>
+                    <div class="metric-value" id="opsPerSec">2,847</div>
+                    <div class="metric-change up"><i class="fas fa-arrow-up"></i> +12.5%</div>
+                    <div class="chart-container"><canvas id="opsChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الشذوذات المكتشفة</div>
+                        <div class="card-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                    </div>
+                    <div class="metric-value" style="color: var(--warning);">3</div>
+                    <div class="metric-change down"><i class="fas fa-arrow-down"></i> -2 من الأمس</div>
+                    <div style="margin-top: 1rem;">
+                        <div class="progress-container">
+                            <div class="progress-label"><span>مستوى التهديد</span><span>منخفض</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 25%; background: var(--warning);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الإيرادات اليومية</div>
+                        <div class="card-icon gold"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="metric-value" style="color: var(--accent);">$12,450</div>
+                    <div class="metric-change up"><i class="fas fa-arrow-up"></i> +8.3%</div>
+                    <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الذاكرة المستخدمة</div>
+                        <div class="card-icon blue"><i class="fas fa-memory"></i></div>
+                    </div>
+                    <div class="metric-value">68%</div>
+                    <div class="memory-grid" id="memoryGrid"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التحسينات النشطة</div>
+                        <div class="card-icon green"><i class="fas fa-check-double"></i></div>
+                    </div>
+                    <div class="metric-value" style="color: var(--success);">120</div>
+                    <div style="font-size: 0.85rem; opacity: 0.8;">تحسين من 120 مدمج</div>
+                    <div style="margin-top: 1rem;">
+                        <span class="badge badge-success">120/120</span>
+                        <span style="font-size: 0.8rem; opacity: 0.6; margin-right: 0.5rem;">جميع التحسينات نشطة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><i class="fas fa-terminal"></i> سجل النظام</div>
+                    <button class="btn btn-secondary" onclick="clearTerminal()"><i class="fas fa-trash"></i> مسح</button>
+                </div>
+                <div class="terminal" id="mainTerminal"></div>
+            </div>
+        </div>
+
+        <!-- Conscious Mind Tab -->
+        <div class="tab-content" id="conscious">
+            <div class="section-title"><i class="fas fa-brain"></i> العقل الواعي</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">حالة الوعي</div>
+                        <div class="card-icon purple"><i class="fas fa-eye"></i></div>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
+                        <div style="font-size: 1.2rem; font-weight: 700;">نشط ومتيقظ</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">مستوى الوعي: 87%</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>التركيز</span><span>92%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 92%; background: var(--primary);"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>الوعي الذاتي</span><span>85%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 85%; background: var(--secondary);"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>المنطق</span><span>96%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 96%; background: var(--info);"></div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التفكير الحالي</div>
+                        <div class="card-icon cyan"><i class="fas fa-lightbulb"></i></div>
+                    </div>
+                    <div class="chat-container" style="height: 350px;">
+                        <div class="chat-messages" id="consciousChat">
+                            <div class="chat-message system">
+                                <div style="font-weight: 700; margin-bottom: 0.25rem;">العقل الواعي</div>
+                                أنا أحلل البيانات الواردة من جميع الأنظمة الفرعية. كل شيء يبدو طبيعياً.
+                            </div>
+                            <div class="chat-message user">
+                                <div style="font-weight: 700; margin-bottom: 0.25rem;">الاستعلام</div>
+                                ما هي الأولوية الحالية؟
+                            </div>
+                            <div class="chat-message system">
+                                <div style="font-weight: 700; margin-bottom: 0.25rem;">العقل الواعي</div>
+                                الأولوية الحالية: مراقبة كاشف الشذوذ - هناك 3 حالات تتطلب المتابعة.
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" class="chat-input" id="consciousInput" placeholder="اسأل العقل الواعي...">
+                            <button class="btn btn-primary" onclick="sendConsciousMessage()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">شبكة التفكير</div>
+                        <div class="card-icon gold"><i class="fas fa-project-diagram"></i></div>
+                    </div>
+                    <canvas id="neuralCanvas" class="neural-canvas"></canvas>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">قرارات حديثة</div>
+                        <div class="card-icon green"><i class="fas fa-gavel"></i></div>
+                    </div>
+                    <div class="timeline" id="decisionsTimeline"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unconscious Mind Tab -->
+        <div class="tab-content" id="unconscious">
+            <div class="section-title"><i class="fas fa-moon"></i> العقل غير الواعي</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">العمليات الخلفية</div>
+                        <div class="card-icon purple"><i class="fas fa-cogs"></i></div>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🌙</div>
+                        <div style="font-size: 1.2rem; font-weight: 700;">يعمل في الخلفية</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">العمليات النشطة: 47</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>معالجة البيانات</span><span>73%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 73%; background: var(--primary);"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>التعلم العميق</span><span>58%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 58%; background: var(--secondary);"></div></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>تحسين الأنماط</span><span>81%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 81%; background: var(--info);"></div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الأحلام / التنبؤات</div>
+                        <div class="card-icon cyan"><i class="fas fa-cloud"></i></div>
+                    </div>
+                    <div id="dreamsContainer" style="max-height: 300px; overflow-y: auto;"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الذاكرة طويلة المدى</div>
+                        <div class="card-icon gold"><i class="fas fa-database"></i></div>
+                    </div>
+                    <div class="metric-value">2.4 TB</div>
+                    <div style="font-size: 0.85rem; opacity: 0.7;">إجمالي البيانات المخزنة</div>
+                    <div style="margin-top: 1rem;">
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الذكريات</span><span>45%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 45%; background: var(--primary);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الأنماط</span><span>30%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 30%; background: var(--secondary);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>التجارب</span><span>25%</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 25%; background: var(--accent);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الغرائز</div>
+                        <div class="card-icon red"><i class="fas fa-bolt"></i></div>
+                    </div>
+                    <ul class="task-list" id="instinctsList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Tab -->
+        <div class="tab-content" id="integration">
+            <div class="section-title"><i class="fas fa-code-branch"></i> نظام الدمج</div>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>جميع الأنظمة الفرعية مدمجة بنجاح. كفاءة الدمج: 94%</span>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">خريطة الدمج</div>
+                        <div class="card-icon purple"><i class="fas fa-sitemap"></i></div>
+                    </div>
+                    <div id="integrationMap" style="height: 400px; position: relative;">
+                        <svg width="100%" height="100%" viewBox="0 0 800 400">
+                            <circle cx="400" cy="200" r="40" fill="var(--primary)" opacity="0.8"/>
+                            <text x="400" y="205" text-anchor="middle" fill="white" font-size="14" font-weight="bold">الدمج</text>
+                            <circle cx="200" cy="100" r="30" fill="var(--info)" opacity="0.7"/>
+                            <text x="200" y="105" text-anchor="middle" fill="white" font-size="12">واعي</text>
+                            <circle cx="600" cy="100" r="30" fill="var(--secondary)" opacity="0.7"/>
+                            <text x="600" y="105" text-anchor="middle" fill="white" font-size="12">غير واعي</text>
+                            <circle cx="150" cy="250" r="30" fill="var(--danger)" opacity="0.7"/>
+                            <text x="150" y="255" text-anchor="middle" fill="white" font-size="12">حصن</text>
+                            <circle cx="650" cy="250" r="30" fill="var(--warning)" opacity="0.7"/>
+                            <text x="650" y="255" text-anchor="middle" fill="white" font-size="12">شذوذ</text>
+                            <circle cx="300" cy="320" r="30" fill="var(--success)" opacity="0.7"/>
+                            <text x="300" y="325" text-anchor="middle" fill="white" font-size="12">خزينة</text>
+                            <circle cx="500" cy="320" r="30" fill="var(--accent)" opacity="0.7"/>
+                            <text x="500" y="325" text-anchor="middle" fill="white" font-size="12">إيرادات</text>
+                            <line x1="400" y1="200" x2="200" y2="100" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="200" x2="600" y2="100" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="200" x2="150" y2="250" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="200" x2="650" y2="250" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="200" x2="300" y2="320" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <line x1="400" y1="200" x2="500" y2="320" stroke="var(--primary)" stroke-width="2" opacity="0.5"/>
+                            <circle cx="300" cy="150" r="4" fill="var(--primary)">
+                                <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="500" cy="150" r="4" fill="var(--primary)">
+                                <animate attributeName="opacity" values="1;0;1" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="275" cy="225" r="4" fill="var(--primary)">
+                                <animate attributeName="opacity" values="1;0;1" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">حالة الاتصال</div>
+                        <div class="card-icon cyan"><i class="fas fa-link"></i></div>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>النظام</th><th>الحالة</th><th>الاستجابة</th><th>آخر تحديث</th></tr></thead>
+                        <tbody id="integrationTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">سجل الدمج</div>
+                        <div class="card-icon green"><i class="fas fa-history"></i></div>
+                    </div>
+                    <div class="timeline" id="integrationTimeline"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التحسينات المدمجة</div>
+                        <div class="card-icon gold"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div style="max-height: 300px; overflow-y: auto;"><div id="enhancementsList"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fortress Tab -->
+        <div class="tab-content" id="fortress">
+            <div class="section-title"><i class="fas fa-shield-alt"></i> الحصن الأمني</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">درع الحماية</div>
+                        <div class="card-icon red"><i class="fas fa-shield-alt"></i></div>
+                    </div>
+                    <div class="fortress-shield">
+                        <div class="shield-ring"></div>
+                        <div class="shield-ring"></div>
+                        <div class="shield-ring"></div>
+                        <div class="shield-ring"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 900; color: var(--success);">محمي</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">7 طبقات أمان</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التهديدات المحظورة</div>
+                        <div class="card-icon red"><i class="fas fa-ban"></i></div>
+                    </div>
+                    <div class="metric-value" style="color: var(--danger);">1,247</div>
+                    <div class="metric-change up"><i class="fas fa-arrow-up"></i> +23 اليوم</div>
+                    <div class="chart-container"><canvas id="threatsChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">جدران النار</div>
+                        <div class="card-icon cyan"><i class="fas fa-fire"></i></div>
+                    </div>
+                    <div id="firewallStatus"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التشفير</div>
+                        <div class="card-icon gold"><i class="fas fa-key"></i></div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 2rem; font-weight: 900; color: var(--accent);">AES-256</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">تشفير شامل للبيانات</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>قوة التشفير</span><span>100%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 100%; background: var(--accent);"></div></div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <div class="card-title">سجل الأمان</div>
+                        <div class="card-icon purple"><i class="fas fa-list-alt"></i></div>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>الوقت</th><th>النوع</th><th>المصدر</th><th>الإجراء</th><th>الحالة</th></tr></thead>
+                        <tbody id="securityLog"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anomaly Detector Tab -->
+        <div class="tab-content" id="anomaly">
+            <div class="section-title"><i class="fas fa-radar"></i> كاشف الشذوذ</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">المسح النشط</div>
+                        <div class="card-icon red"><i class="fas fa-radar"></i></div>
+                    </div>
+                    <div class="anomaly-radar"><div class="radar-sweep"></div></div>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <div style="font-size: 1.2rem; font-weight: 700;">المسح المستمر</div>
+                        <div style="font-size: 0.85rem; opacity: 0.7;">فحص كل 0.5 ثانية</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الشذوذات الحالية</div>
+                        <div class="card-icon warning"><i class="fas fa-exclamation-circle"></i></div>
+                    </div>
+                    <div id="anomaliesList"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">نمط الشذوذ</div>
+                        <div class="card-icon cyan"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="anomalyChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">إحصائيات الكشف</div>
+                        <div class="card-icon green"><i class="fas fa-chart-pie"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="detectionStatsChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Treasury Tab -->
+        <div class="tab-content" id="treasury">
+            <div class="section-title"><i class="fas fa-vault"></i> الخزينة</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الرصيد الكلي</div>
+                        <div class="card-icon gold"><i class="fas fa-coins"></i></div>
+                    </div>
+                    <div class="metric-value" style="color: var(--accent);">$2,847,500</div>
+                    <div class="metric-change up"><i class="fas fa-arrow-up"></i> +5.2% هذا الشهر</div>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الاحتياطي</span><span>$1.2M</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 42%; background: var(--success);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الاستثمارات</span><span>$980K</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 34%; background: var(--info);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>التشغيل</span><span>$667K</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 24%; background: var(--warning);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">المعاملات الأخيرة</div>
+                        <div class="card-icon cyan"><i class="fas fa-exchange-alt"></i></div>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+                        <tbody id="transactionsTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التدفق المالي</div>
+                        <div class="card-icon purple"><i class="fas fa-water"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الموارد</div>
+                        <div class="card-icon green"><i class="fas fa-boxes"></i></div>
+                    </div>
+                    <div id="resourcesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue Engine Tab -->
+        <div class="tab-content" id="revenue">
+            <div class="section-title"><i class="fas fa-coins"></i> محرك الإيرادات</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">تدفق الإيرادات</div>
+                        <div class="card-icon gold"><i class="fas fa-stream"></i></div>
+                    </div>
+                    <div class="revenue-flow">
+                        <div class="revenue-node">
+                            <i class="fas fa-users" style="font-size: 1.5rem; color: var(--info);"></i>
+                            <div style="margin-top: 0.5rem; font-weight: 700;">العملاء</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">1,240</div>
+                        </div>
+                        <div class="revenue-arrow"><i class="fas fa-chevron-left"></i></div>
+                        <div class="revenue-node">
+                            <i class="fas fa-cogs" style="font-size: 1.5rem; color: var(--primary);"></i>
+                            <div style="margin-top: 0.5rem; font-weight: 700;">الخدمات</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">12 خدمة</div>
+                        </div>
+                        <div class="revenue-arrow"><i class="fas fa-chevron-left"></i></div>
+                        <div class="revenue-node">
+                            <i class="fas fa-dollar-sign" style="font-size: 1.5rem; color: var(--success);"></i>
+                            <div style="margin-top: 0.5rem; font-weight: 700;">الإيرادات</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">$12,450/يوم</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">مصادر الإيرادات</div>
+                        <div class="card-icon cyan"><i class="fas fa-chart-pie"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="revenueSourcesChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الأداء الشهري</div>
+                        <div class="card-icon purple"><i class="fas fa-chart-bar"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="monthlyRevenueChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التحسينات المدرة</div>
+                        <div class="card-icon green"><i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div id="revenueEnhancements"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expansion Tab -->
+        <div class="tab-content" id="expansion">
+            <div class="section-title"><i class="fas fa-rocket"></i> محرك التوسع</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">خريطة التوسع</div>
+                        <div class="card-icon purple"><i class="fas fa-globe"></i></div>
+                    </div>
+                    <div style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">🌍</div>
+                            <div style="font-size: 1.2rem; font-weight: 700;">5 مناطق نشطة</div>
+                            <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">3 مناطق قيد التخطيط</div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>التغطية الجغرافية</span><span>62%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 62%; background: var(--primary);"></div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">المشاريع الجديدة</div>
+                        <div class="card-icon cyan"><i class="fas fa-tasks"></i></div>
+                    </div>
+                    <ul class="task-list" id="expansionProjects"></ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">نمو المستخدمين</div>
+                        <div class="card-icon green"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="metric-value">12,450</div>
+                    <div class="metric-change up"><i class="fas fa-arrow-up"></i> +18% هذا الشهر</div>
+                    <div class="chart-container"><canvas id="userGrowthChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">القدرة التوسعية</div>
+                        <div class="card-icon gold"><i class="fas fa-expand-arrows-alt"></i></div>
+                    </div>
+                    <div id="capacityMetrics"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Builder Tab -->
+        <div class="tab-content" id="builder">
+            <div class="section-title"><i class="fas fa-cogs"></i> بناء الأنظمة</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">منشئ النظام</div>
+                        <div class="card-icon purple"><i class="fas fa-hammer"></i></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اسم النظام</label>
+                        <input type="text" class="form-input" id="systemName" placeholder="أدخل اسم النظام الجديد">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">النوع</label>
+                        <select class="form-select" id="systemType">
+                            <option>نظام فرعي</option>
+                            <option>وحدة خدمة</option>
+                            <option>معالج بيانات</option>
+                            <option>واجهة مستخدم</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الوصف</label>
+                        <textarea class="form-textarea" id="systemDesc" placeholder="وصف النظام ووظائفه"></textarea>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="buildSystem()">
+                        <i class="fas fa-plus"></i> بناء النظام
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الأنظمة المبنية</div>
+                        <div class="card-icon cyan"><i class="fas fa-list"></i></div>
+                    </div>
+                    <div id="builtSystemsList"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">القوالب الجاهزة</div>
+                        <div class="card-icon gold"><i class="fas fa-copy"></i></div>
+                    </div>
+                    <div id="templatesList"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">سجل البناء</div>
+                        <div class="card-icon green"><i class="fas fa-history"></i></div>
+                    </div>
+                    <div class="timeline" id="buildTimeline"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Server Tab -->
+        <div class="tab-content" id="server">
+            <div class="section-title"><i class="fas fa-server"></i> السيرفر</div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">حالة السيرفرات</div>
+                        <div class="card-icon purple"><i class="fas fa-server"></i></div>
+                    </div>
+                    <div class="server-rack" id="serverRack"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">استخدام الموارد</div>
+                        <div class="card-icon cyan"><i class="fas fa-tachometer-alt"></i></div>
+                    </div>
+                    <div class="chart-container"><canvas id="serverResourcesChart"></canvas></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">شبكة النقل</div>
+                        <div class="card-icon blue"><i class="fas fa-network-wired"></i></div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الداخل</span><span>450 Mbps</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 45%; background: var(--info);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الخارج</span><span>320 Mbps</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 32%; background: var(--secondary);"></div></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label"><span>الاستجابة</span><span>12ms</span></div>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 12%; background: var(--success);"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">سجل السيرفر</div>
+                        <div class="card-icon green"><i class="fas fa-clipboard-list"></i></div>
+                    </div>
+                    <div class="terminal" id="serverTerminal" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tab - NEW -->
+        <div class="tab-content" id="ai">
+            <div class="section-title"><i class="fas fa-robot"></i> الذكاء الذاتي</div>
+            <div class="alert alert-success">
+                <i class="fas fa-brain"></i>
+                <span>محركات الذكاء الذاتي نشطة. النظام يتعلم ويشفى ويتخذ قرارات بدون تدخل.</span>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">الشفاء الذاتي</div>
+                        <div class="card-icon green"><i class="fas fa-heartbeat"></i></div>
+                    </div>
+                    <div id="selfHealingStatus"></div>
+                    <div class="progress-container" style="margin-top: 1rem;">
+                        <div class="progress-label"><span>كفاءة الشفاء</span><span>97%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 97%; background: var(--success);"></div></div>
+                    </div>
+                    <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">
+                        <div>✅ آخر إصلاح: السيرفر 3 - ارتفاع حرارة</div>
+                        <div>⏱️ وقت الإصلاح: 2.3 ثانية</div>
+                        <div>📊 إجمالي الإصلاحات: 1,247</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">محرك القرار الذاتي</div>
+                        <div class="card-icon purple"><i class="fas fa-brain"></i></div>
+                    </div>
+                    <div id="decisionEngine"></div>
+                    <div class="progress-container" style="margin-top: 1rem;">
+                        <div class="progress-label"><span>دقة القرارات</span><span>94%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 94%; background: var(--primary);"></div></div>
+                    </div>
+                    <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">
+                        <div>🧠 آخر قرار: إعادة توجيه حركة المرور</div>
+                        <div>📈 التأثير: -12ms استجابة</div>
+                        <div>📊 إجمالي القرارات: 8,432</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">محرك التعلم المستمر</div>
+                        <div class="card-icon cyan"><i class="fas fa-graduation-cap"></i></div>
+                    </div>
+                    <div id="learningEngine"></div>
+                    <div class="progress-container" style="margin-top: 1rem;">
+                        <div class="progress-label"><span>مستوى التعلم</span><span>78%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 78%; background: var(--secondary);"></div></div>
+                    </div>
+                    <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">
+                        <div>📚 الأنماط المُحفوظة: 2,847</div>
+                        <div>🎯 دقة التنبؤ: 91%</div>
+                        <div>⚡ سرعة التعلم: +12%/يوم</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">التنبؤ الاستباقي</div>
+                        <div class="card-icon gold"><i class="fas fa-crystal-ball"></i></div>
+                    </div>
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔮</div>
+                        <div style="font-size: 1.2rem; font-weight: 700;">التنبؤ الاستباقي نشط</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">5 تنبؤات قيد المراقبة</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>دقة التنبؤ</span><span>91%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 91%; background: var(--accent);"></div></div>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <div class="card-title">سجل الذكاء الذاتي</div>
+                        <div class="card-icon purple"><i class="fas fa-history"></i></div>
+                    </div>
+                    <div class="terminal" id="aiTerminal" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">عنوان</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>"""
+
+with open(f'{base_dir}/index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("✅ تم إنشاء index.html")
+print(f"   الحجم: {len(html_content):,} حرف")
+
+
+٧
+
+import os
+import zipfile
+
+base_dir = '/mnt/agents/output/yasmine_kingdom'
+
+# 4. Create README.md
+readme = """# 🏰 مملكة ياسمين - النظام الذاتي المتكامل
+
+## النسخة: 2.0 | التاريخ: 2026
+
+---
+
+## 📁 هيكل المشروع
+
+```
+yasmine_kingdom/
+├── index.html          # الصفحة الرئيسية
+├── css/
+│   └── styles.css      # التنسيقات
+├── js/
+│   └── main.js         # المنطق والتفاعل
+├── data/
+│   └── (للبيانات)
+├── backend/
+│   └── (للخلفية)
+├── assets/
+│   ├── images/
+│   └── fonts/
+└── README.md           # هذا الملف
+```
+
+## 🧠 الأنظمة الفرعية (11 نظام)
+
+| # | النظام | الوصف |
+|---|--------|--------|
+| 1 | **لوحة القيادة** | نظرة عامة على جميع الأنظمة |
+| 2 | **العقل الواعي** | واجهة تفاعلية، شبكة عصبية، قرارات |
+| 3 | **العقل غير الواعي** | عمليات خلفية، تنبؤات، ذاكرة، غرائز |
+| 4 | **الدمج** | خريطة اتصال، حالة الأنظمة |
+| 5 | **الحصن** | درع حماية، جدران نار، تشفير |
+| 6 | **كاشف الشذوذ** | رادار مسح، إحصائيات |
+| 7 | **الخزينة** | رصيد، معاملات، تدفق مالي |
+| 8 | **محرك الإيرادات** | مصادر الدخل، أداء شهري |
+| 9 | **محرك التوسع** | مشاريع، نمو المستخدمين |
+| 10 | **بناء الأنظمة** | منشئ أنظمة، قوالب |
+| 11 | **السيرفر** | حالة الخوادم، موارد |
+| 12 | **الذكاء الذاتي** | شفاء ذاتي، قرارات، تعلم |
+
+## ⚡ الميزات
+
+- ✅ 12 رسماً بيانياً تفاعلياً (Chart.js)
+- ✅ شبكة عصبية متحركة (Canvas)
+- ✅ تحديثات في الوقت الفعلي كل 3 ثوانٍ
+- ✅ شفاء ذاتي تلقائي
+- ✅ محرك قرارات ذاتي
+- ✅ تعلم مستمر
+- ✅ 120 تحسين مدمج
+- ✅ تصميم متجاوب (Responsive)
+- ✅ وضع داكن احترافي
+
+## 🚀 التشغيل
+
+1. افتح `index.html` في أي متصفح حديث
+2. لا يحتاج خادم (Serverless)
+3. يعمل بدون إنترنت (بعد التحميل الأول)
+
+## 🔧 التقنيات
+
+- HTML5
+- CSS3 (Glassmorphism, Animations)
+- JavaScript (ES6+)
+- Chart.js
+- Font Awesome
+- Google Fonts (Cairo)
+
+## 📜 الترخيص
+
+مشروع مفتوح المصدر - مملكة ياسمين © 2026
+"""
+
+with open(f'{base_dir}/README.md', 'w', encoding='utf-8') as f:
+    f.write(readme)
+
+print("✅ تم إنشاء README.md")
+
+# 5. Create ZIP file
+zip_path = '/mnt/agents/output/yasmine_kingdom.zip'
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    for root, dirs, files in os.walk(base_dir):
+        for file in files:
+            file_path = os.path.join(root, file)
+            arcname = os.path.relpath(file_path, os.path.dirname(base_dir))
+            zipf.write(file_path, arcname)
+
+zip_size = os.path.getsize(zip_path)
+print(f"\n✅ تم إنشاء ملف ZIP")
+print(f"   المسار: {zip_path}")
+print(f"   الحجم: {zip_size:,} بايت ({zip_size/1024:.1f} KB)")
+
+# List all files
+print("\n📁 محتويات المجلد:")
+for root, dirs, files in os.walk(base_dir):
+    level = root.replace(base_dir, '').count(os.sep)
+    indent = ' ' * 2 * level
+    print(f"{indent}{os.path.basename(root)}/")
+    subindent = ' ' * 2 * (level + 1)
+    for file in files:
+        fp = os.path.join(root, file)
+        size = os.path.getsize(fp)
+        print(f"{subindent}{file} ({size:,} بايت)")
+
+
+

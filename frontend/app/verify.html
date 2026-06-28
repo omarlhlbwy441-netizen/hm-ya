@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق الحساب | منظومة hm-ya</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .verify-box { max-width: 500px; margin: 10vh auto; }
+        .upload-area { border: 2px dashed var(--gold-solid); padding: 40px; text-align: center; border-radius: 8px; cursor: pointer; margin: 20px 0; background: rgba(212, 175, 55, 0.05); }
+        .btn-outline { border: var(--gold-border); background: transparent; color: var(--typography-gold); padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="module-container verify-box">
+        <h2>توثيق الهوية (KYC)</h2>
+        <p>يرجى رفع المستندات المطلوبة لربطها بملفك الشخصي.</p>
+        <div class="upload-area" onclick="document.getElementById('docUpload').click()">
+            <h3 style="border:none;">+ اضغط لرفع المستندات</h3>
+            <p>يدعم الصور وملفات PDF</p>
+            <input type="file" id="docUpload" hidden multiple>
+        </div>
+        <button class="btn-outline" style="width:100%;">إرسال للتوثيق</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول | منظومة hm-ya</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        .auth-container { max-width: 400px; margin: 10vh auto; text-align: center; }
+        .input-group { margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: var(--gold-border); color: var(--typography-light); border-radius: 8px; outline: none; }
+        input:focus { box-shadow: 0 0 10px var(--gold-glow); }
+        .btn-gold { background: linear-gradient(45deg, #b8860b, #d4af37); color: #000; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="module-container auth-container">
+        <h1>منظومة hm-ya</h1>
+        <p style="color: var(--typography-gold);">بوابة الدخول الموحدة</p>
+        <div class="input-group">
+            <input type="text" placeholder="المعرف الرقمي أو البريد" id="userId">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="رمز المرور" id="passCode">
+        </div>
+        <button class="btn-gold" onclick="window.location.href='verify.html'">دخول آمن</button>
+    </div>
+</body>
+</html>
