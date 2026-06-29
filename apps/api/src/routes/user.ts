@@ -4,13 +4,21 @@ import { prisma } from '../db';
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
-  const { username, role } = req.body;
+// مسار جلب بيانات الملف الشخصي (محاكاة لجلب المستخدم الأول حالياً)
+router.get('/profile', async (req, res) => {
   try {
-    const user = await prisma.user.create({ data: { username, role } });
-    res.json(user);
-  } catch (e) {
-    res.status(400).json({ error: "خطأ في إنشاء المستخدم، ربما الاسم مكرر." });
+    // نستخدم findFirst كمثال لجلب مستخدم، في الحقيقة ستحتاج لنظام Auth
+    const user = await prisma.user.findFirst();
+    if (!user) {
+      return res.status(404).json({ error: 'المستخدم غير موجود' });
+    }
+    res.json({
+      balance: user.balance,
+      level: user.level,
+      isVip: user.isVip
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'حدث خطأ في جلب البيانات' });
   }
 });
 
