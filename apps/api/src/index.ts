@@ -8,24 +8,20 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// مسار الاختبار (للتأكد أن المملكة تعمل)
+// مسار الاختبار الأساسي
 app.get('/api/status', (req, res) => {
   res.json({ status: 'المملكة تعمل بنجاح!', timestamp: new Date() });
 });
 
-// مسار لجلب بيانات المستخدم (تجريبي)
-app.get('/api/kingdom/:username', async (req, res) => {
+// مسار للتحقق من الاتصال بقاعدة البيانات
+app.get('/api/db-test', async (req, res) => {
   try {
-    const { username } = req.params;
-    const user = await prisma.user.findUnique({
-      where: { username },
-      include: { kingdom: true }
-    });
-    
-    if (!user) return res.status(404).json({ error: 'المستخدم غير موجود' });
-    res.json(user);
+    // محاولة تنفيذ استعلام بسيط للتأكد من الاتصال
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: 'success', message: 'تم الاتصال بقاعدة البيانات بنجاح!' });
   } catch (error) {
-    res.status(500).json({ error: 'خطأ في جلب بيانات المملكة' });
+    console.error('DB Connection Error:', error);
+    res.status(500).json({ status: 'error', message: 'فشل الاتصال بقاعدة البيانات', error: String(error) });
   }
 });
 
