@@ -1,30 +1,27 @@
 
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './db';
 
 const app = express();
-const prisma = new PrismaClient();
-const port = process.env.PORT || 3000;
-
 app.use(express.json());
 
-// مسار الاختبار الأساسي
-app.get('/api/status', (req, res) => {
-  res.json({ status: 'المملكة تعمل بنجاح!', timestamp: new Date() });
+// مسار للتحقق من عمل السيرفر
+app.get('/', (req, res) => {
+  res.json({ message: "🚀 مرحبًا بك في API المملكة! يعمل بنجاح." });
 });
 
-// مسار للتحقق من الاتصال بقاعدة البيانات
-app.get('/api/db-test', async (req, res) => {
+// مسار تجريبي للـ DB
+app.get('/health', async (req, res) => {
   try {
-    // محاولة تنفيذ استعلام بسيط للتأكد من الاتصال
+    // اختبار الاتصال
     await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: 'success', message: 'تم الاتصال بقاعدة البيانات بنجاح!' });
+    res.json({ status: "Connected to Database" });
   } catch (error) {
-    console.error('DB Connection Error:', error);
-    res.status(500).json({ status: 'error', message: 'فشل الاتصال بقاعدة البيانات', error: String(error) });
+    res.status(500).json({ error: "Database connection failed", details: error });
   }
 });
 
-app.listen(port, () => {
-  console.log(`المملكة تستمع على المنفذ: ${port}`);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
