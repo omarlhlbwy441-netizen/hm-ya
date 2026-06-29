@@ -12,6 +12,10 @@ model User {
   username      String    @unique
   role          String    @default("USER")
   diamonds      Int       @default(0)
+  balance       Int       @default(0)
+  level         Int       @default(1)
+  exp           Int       @default(0)
+  isVip         Boolean   @default(false)
   agencyId      String?
   agency        Agency?   @relation("AgencyMembers", fields: [agencyId], references: [id])
   transactions  Transaction[] @relation("Sender")
