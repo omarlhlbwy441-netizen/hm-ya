@@ -1,5 +1,6 @@
 
 import express from 'express';
+import { securityMiddleware } from './middleware/security';
 import userRoutes from './routes/user';
 import walletRoutes from './routes/wallet';
 import transferRoutes from './routes/transfer';
@@ -7,6 +8,7 @@ import agencyRoutes from './routes/agency';
 import adminRoutes from './routes/admin';
 
 const app = express();
+app.use(securityMiddleware);
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
