@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces",
-    "build": "npm run build --workspaces",
+    "build": "npm run build -w apps/api",
     "install:all": "npm install",
     "prestart": "npx prisma migrate deploy"
   }
