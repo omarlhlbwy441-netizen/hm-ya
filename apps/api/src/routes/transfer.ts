@@ -1,5 +1,6 @@
 
 import { Router } from 'express';
+import { processLevelUp } from '../services/leveling';
 import { prisma } from '../db';
 
 const router = Router();
