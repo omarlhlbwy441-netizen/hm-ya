@@ -2,7 +2,7 @@
   "name": "yasmine-kingdom-monorepo",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/api"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces",
